@@ -74,5 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+        public void update() {
+            if(isMoving){
+                turtleXPosition = turtleXPosition + (walkSpeedPerSecond / fps);
+            }
+        }
     }
 }
