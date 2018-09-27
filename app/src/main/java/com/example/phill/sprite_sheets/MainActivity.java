@@ -62,7 +62,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void run() {
+            while(playing){
+                long startFrameTime = System.currentTimeMillis();
 
+                //update
+                //draw
+
+                timeThisFrame = System.currentTimeMillis() - startFrameTime;
+                if (timeThisFrame >= 1) {
+                    fps = 1000 / timeThisFrame;
+                }
+            }
         }
     }
 }
