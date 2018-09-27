@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -80,5 +81,21 @@ public class MainActivity extends AppCompatActivity {
                 turtleXPosition = turtleXPosition + (walkSpeedPerSecond / fps);
             }
         }
+
+        public void draw() {
+            //valid or we crash
+            if(ourHolder.getSurface().isValid()) {
+                canvas = ourHolder.lockCanvas();
+                canvas.drawColor(Color.argb(255, 26, 128, 182));
+                paint.setColor(Color.argb(255, 249, 129, 0));
+                paint.setTextSize(45);
+                canvas.drawText("FPS:"+fps, 20,40, paint);
+
+
+                ourHolder.unlockCanvasAndPost(canvas);
+            }
+        }
+
+        
     }
 }
