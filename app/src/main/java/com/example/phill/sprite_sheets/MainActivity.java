@@ -2,6 +2,7 @@ package com.example.phill.sprite_sheets;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         //call new special constructor method runs
         public GameView(Context context) {
             super(context);  // asks suface view to set up our object
+
+            ourHolder = getHolder();
+            paint = new Paint();
+
+            bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle);
         }
 
         @Override
