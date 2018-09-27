@@ -125,6 +125,15 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
-
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gameView.resume();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gameView.pause();
     }
 }
