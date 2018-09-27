@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -111,7 +112,19 @@ public class MainActivity extends AppCompatActivity {
             gameThread = new Thread(this);
             gameThread.start();
         }
-        
+
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    isMoving = true;
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    isMoving = false;
+                    break;
+            }
+            return true;
+        }
 
     }
 }
