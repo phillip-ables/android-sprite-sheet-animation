@@ -66,6 +66,19 @@ public class MainActivity extends AppCompatActivity {
 
         private int frameLengthInMilliseconds = 100;
 
+        private Rect frameToDraw = new Rect(
+                0,
+                0,
+                frameWideth,
+                frameHeight
+        );
+
+        RectF whereToDraw = new RectF(
+                turtleXPosition,
+                0,
+                turtleXPosition + frameWideth,
+                frameHeight
+        );
 
         //call new special constructor method runs
         public GameView(Context context) {
