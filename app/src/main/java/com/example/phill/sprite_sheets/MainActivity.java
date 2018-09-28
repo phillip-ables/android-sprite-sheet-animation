@@ -88,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
             paint = new Paint();
 
             bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle);
+
+            bitmapTurtle = Bitmap.createScaledBitmap(
+                    bitmapTurtle,
+                    frameWideth * upFrameCount,
+                    frameHeight,
+                    false
+            );
         }
 
         @Override
