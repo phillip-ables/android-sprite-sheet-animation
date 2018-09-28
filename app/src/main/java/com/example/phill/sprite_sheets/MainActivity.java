@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         float turtleXPosition;  // will be greater then canvas length
         float backgroundXPos = 0;
 
-        private int frameWideth = 100;
-        private int frameHeight = 50;
+        //when these increase
+        private int frameWideth = 350;
+        private int frameHeight = 300
+                ;
         private int upFrameCount = 4;
         private int idleFrameCount = 2;
 
@@ -102,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             while(playing){
                 long startFrameTime = System.currentTimeMillis();
 
-                //update
-                //draw
+                update();
+                draw();
 
                 timeThisFrame = System.currentTimeMillis() - startFrameTime;
                 if (timeThisFrame >= 1) {
@@ -125,8 +127,23 @@ public class MainActivity extends AppCompatActivity {
                 canvas.drawColor(Color.argb(255, 26, 128, 182));
                 paint.setColor(Color.argb(255, 249, 129, 0));
                 paint.setTextSize(45);
-                canvas.drawText("FPS:"+fps, 20,40, paint);
 
+
+                whereToDraw.set(
+                        (int)turtleXPosition,
+                        0,
+                        (int)turtleXPosition + frameWideth,
+                        frameHeight
+                );
+
+                getCurrentFrame();
+
+                canvas.drawBitmap(
+                        bitmapTurtle,
+                        frameToDraw,
+                        whereToDraw,
+                        paint
+                );
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
