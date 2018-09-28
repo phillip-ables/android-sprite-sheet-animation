@@ -132,6 +132,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        public void getCurrentFrame() {
+            long time = System.currentTimeMillis();
+            if(isMoving){  // animate for if is moving
+                if (time > lastFrameChangeTime + frameLengthInMilliseconds) {
+                    lastFrameChangeTime = time;
+                    currentFrame++;
+                    if(currentFrame >= upFrameCount) {
+                        currentFrame = 0;
+                    }
+                }
+            }
+            //this would be the not moving section
+            //i think instead of re using that code we could just use the base
+            //pass in which animation based of is moving logic
+            //but for now
+
+            frameToDraw.left = currentFrame * frameWideth;
+            frameToDraw.right = frameToDraw.left + frameWideth;
+        }
+
         public void pause() {
             playing = false;
             try {
