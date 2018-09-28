@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
         float wormXPosition = 10;
         float turtleXPosition;  // will be greater then canvas length
         float backgroundXPos = 0;
+
+        private int frameWideth = 100;
+        private int frameHeight = 50;
+        private int upFrameCount = 4;
+        private int idleFrameCount = 2;
+
+        private int currentFrame = 0;
+
+        private long lastFrameChangeTime = 0;
+
+        private int frameLengthInMilliseconds = 100;
+
 
         //call new special constructor method runs
         public GameView(Context context) {
