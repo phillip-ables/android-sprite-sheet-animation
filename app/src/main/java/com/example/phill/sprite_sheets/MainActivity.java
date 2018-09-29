@@ -49,20 +49,25 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmapstraw;
 
         boolean isMoving = false;
-        float walkSpeedPerSecond = 250;
+        float turtleSpeedPerSecond = 250;
+        float wormSpeedPerSecond = 250;
 
-        float wormXPosition = 10;
-        float turtleXPosition;  // will be greater then canvas length
+        float wormXPosition, wormYPosition;
+        float turtleXPosition = 5, turtleYPostition;
         float backgroundXPos = 0;
 
-        //when these increase
-        private int frameWideth = 350;
-        private int frameHeight = 300
-                ;
-        private int upFrameCount = 4;
-        private int idleFrameCount = 2;
+        //when these increase the drawn picture is bigger
+        private int turtle_frameWideth = 350;
+        private int turtle_frameHeight = 150;
+        private int turtle_UpFrameCount = 4;
+        private int turtle_idleFrameCount = 2;
 
-        private int currentFrame = 0;
+        private int worm_frameWidth = 150;
+        private int worm_framwHeight = 50;
+        private int turtle_swimFrameCount;
+
+        private int turtle_currentFrame = 0;
+        private int worm_currentFrame = 0;
 
         private long lastFrameChangeTime = 0;
 
