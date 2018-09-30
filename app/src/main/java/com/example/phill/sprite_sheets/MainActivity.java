@@ -49,42 +49,62 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmapstraw;
 
         boolean isMoving = false;
-        float turtleSpeedPerSecond = 250;
-        float wormSpeedPerSecond = 250;
+        float turtle_speedPerSecond = 250;
+        float worm_speedPerSecond = 250;
 
         float wormXPosition, wormYPosition;
         float turtleXPosition = 5, turtleYPostition;
         float backgroundXPos = 0;
 
         //when these increase the drawn picture is bigger
-        private int turtle_frameWideth = 350;
+        private int turtle_frameWidth = 350;
         private int turtle_frameHeight = 150;
-        private int turtle_UpFrameCount = 4;
+        private int turtle_upFrameCount = 4;
         private int turtle_idleFrameCount = 2;
+        private int turtle_frameCount;
 
         private int worm_frameWidth = 150;
-        private int worm_framwHeight = 50;
-        private int turtle_swimFrameCount;
+        private int worm_frameHeight = 50;
+        private int worm_frameCount;
 
         private int turtle_currentFrame = 0;
-        private int worm_currentFrame = 0;
-
+        // dont think we need a frame count for everything that has only one animation
+        private int worm_currentFrame = 0;  // we will need current frame for each so we can reset it to zero
         private long lastFrameChangeTime = 0;
 
         private int frameLengthInMilliseconds = 100;
 
-        private Rect frameToDraw = new Rect(
+
+        //draw, this will be a function after tonight
+
+        //Turtle draw
+        private Rect turtle_frameToDraw = new Rect(
                 0,
                 0,
-                frameWideth,
-                frameHeight
+                turtle_frameWidth,
+                turtle_frameHeight
         );
 
-        RectF whereToDraw = new RectF(
+        RectF turtle_whereToDraw = new RectF(
                 turtleXPosition,
+                turtleYPostition,
+                turtleXPosition + turtle_frameWidth,
+                turtle_frameHeight
+        );
+
+        //worm draw
+        private Rect worm_frameToDraw = new Rect(
                 0,
-                turtleXPosition + frameWideth,
-                frameHeight
+                0,
+                turtle_frameWidth,
+                turtle_frameHeight
+        );
+
+        RectF worm_whereToDraw = new RectF(
+                wormXPosition,
+                wormYPosition,
+                wormXPosition + worm_frameWidth,
+                worm_frameHeight
         );
 
         //call new special constructor method runs
@@ -94,12 +114,22 @@ public class MainActivity extends AppCompatActivity {
             ourHolder = getHolder();
             paint = new Paint();
 
-            bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle);
+            //this is where what is in update was before i moved it
 
             bitmapTurtle = Bitmap.createScaledBitmap(
                     bitmapTurtle,
-                    frameWideth * upFrameCount,
-                    frameHeight,
+                    turtle_frameWidth * turtle_frameCount,
+                    turtle_frameHeight,
+                    false
+            );
+
+            //worm
+            bitmapWorm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_566_259);
+
+            bitmapWorm = Bitmap.createScaledBitmap(
+                    bitmapWorm,
+                    worm_frameWidth * worm_frameCount,
+                    worm_frameHeight,
                     false
             );
         }
@@ -120,9 +150,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void update() {
-            if(isMoving){
-                turtleXPosition = turtleXPosition + (walkSpeedPerSecond / fps);
+            //junk code for which resource to use
+            if(isMoving) {
+                bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
+                turtle_frameCount = turtle_upFrameCount;
+            }else{
+                bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_245);
+                turtle_frameCount = turtle_idleFrameCount;
             }
+
+            //i dont think this needs to be called anymore
+            /*
+            if(isMoving){
+                turtleXPosition = turtleXPosition + (turtle_speedPerSecond / fps);
+            }
+            */
         }
 
         public void draw() {
@@ -134,19 +176,35 @@ public class MainActivity extends AppCompatActivity {
                 paint.setTextSize(45);
 
 
-                whereToDraw.set(
+                turtle_whereToDraw.set(
                         (int)turtleXPosition,
                         0,
-                        (int)turtleXPosition + frameWideth,
-                        frameHeight
+                        (int)turtleXPosition + turtle_frameWidth,
+                        turtle_frameHeight
                 );
 
                 getCurrentFrame();
 
                 canvas.drawBitmap(
                         bitmapTurtle,
-                        frameToDraw,
-                        whereToDraw,
+                        turtle_frameToDraw,
+                        turtle_whereToDraw,
+                        paint
+                );
+
+                worm_whereToDraw.set(
+                        (int)wormXPosition,
+                        0,
+                        (int)wormXPosition + worm_frameWidth,
+                        worm_frameHeight
+                );
+
+                getCurrentFrame();
+
+                canvas.drawBitmap(
+                        bitmapWorm,
+                        worm_frameToDraw,
+                        worm_whereToDraw,
                         paint
                 );
 
@@ -156,22 +214,42 @@ public class MainActivity extends AppCompatActivity {
 
         public void getCurrentFrame() {
             long time = System.currentTimeMillis();
-            if(isMoving){  // animate for if is moving
-                if (time > lastFrameChangeTime + frameLengthInMilliseconds) {
-                    lastFrameChangeTime = time;
-                    currentFrame++;
-                    if(currentFrame >= upFrameCount) {
-                        currentFrame = 0;
+            if (time > lastFrameChangeTime + frameLengthInMilliseconds) {  // this logic orig came after is moving logic
+                turtle_currentFrame++;
+                worm_currentFrame++;
+                if(isMoving) {  // animate for if is moving
+                    lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
+                    //want this to be update frame function
+                    //update frame count
+                    //check current frame
+                    if (turtle_currentFrame >= turtle_upFrameCount) {
+                        turtle_currentFrame = 0;
                     }
                 }
-            }
-            //this would be the not moving section
-            //i think instead of re using that code we could just use the base
-            //pass in which animation based of is moving logic
-            //but for now
+                //this would be the not moving section
+                //i think instead of re using that code we could just use the base
+                //pass in which animation based of is moving logic
+                //but for now
+                else{
+                    lastFrameChangeTime = time;
+                    turtle_currentFrame++;
 
-            frameToDraw.left = currentFrame * frameWideth;
-            frameToDraw.right = frameToDraw.left + frameWideth;
+                    if(turtle_currentFrame >= turtle_idleFrameCount)
+                        turtle_currentFrame = 0;
+                }
+                if (worm_currentFrame >= worm_frameCount)
+                    worm_currentFrame = 0;
+            }
+
+
+
+            //only the turtle can move moving
+
+            turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
+            turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
+
+            worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
+            worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
         }
 
         public void pause() {
