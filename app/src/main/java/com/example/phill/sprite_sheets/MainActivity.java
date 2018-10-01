@@ -263,10 +263,10 @@ public class MainActivity extends AppCompatActivity {
                 //but for now
                 else{
                     lastFrameChangeTime = time;
-                    turtle_currentFrame++;
-
+                    //turtle_currentFrame++;
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
+                    Log.e("ERR", "FRAME "+ turtle_currentFrame);
                 }
                 /*
                 if (worm_currentFrame >= worm_frameCount)
