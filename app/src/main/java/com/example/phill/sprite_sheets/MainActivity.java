@@ -42,18 +42,21 @@ public class MainActivity extends AppCompatActivity {
         long fps;  // game frame rate
         private long timeThisFrame;  // helps calculate the fps
 
-        //Bitmaps
+        //Bitmaps for hire
         Bitmap bitmapWorm;
         Bitmap bitmapTurtle;
         Bitmap bitmapBackground;
         Bitmap bitmapstraw;
 
         boolean isMoving = false;
+        //you need to find where these go
         float turtle_speedPerSecond = 250;
         float worm_speedPerSecond = 250;
 
-        float wormXPosition, wormYPosition;
-        float turtleXPosition = 5, turtleYPostition;
+
+        //this needs fixed or handled, i hate generic values
+        float wormXPosition = 300, wormYPosition=300;
+        float turtleXPosition = 5, turtleYPostition=5;
         float backgroundXPos = 0;
 
         //when these increase the drawn picture is bigger
@@ -92,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 turtle_frameHeight
         );
 
+        //i wounder if i loose the worm will it work
+        /*
         //worm draw
         private Rect worm_frameToDraw = new Rect(
                 0,
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 wormXPosition + worm_frameWidth,
                 worm_frameHeight
         );
+        */
 
         //call new special constructor method runs
         public GameView(Context context) {
@@ -116,14 +122,19 @@ public class MainActivity extends AppCompatActivity {
 
             //this is where what is in update was before i moved it
 
+            //this was missing from round one
+            bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_245);
+            //i honestly think that this might be where the error is coming from
             bitmapTurtle = Bitmap.createScaledBitmap(
                     bitmapTurtle,
-                    turtle_frameWidth * turtle_frameCount,
+                    //turtle_frameWidth * turtle_frameCount,
+                    50,
                     turtle_frameHeight,
                     false
             );
 
             //worm
+            /*
             bitmapWorm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_566_259);
 
             bitmapWorm = Bitmap.createScaledBitmap(
@@ -132,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     worm_frameHeight,
                     false
             );
-        }
+            */        }
 
         @Override
         public void run() {
@@ -154,9 +165,26 @@ public class MainActivity extends AppCompatActivity {
             if(isMoving) {
                 bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
                 turtle_frameCount = turtle_upFrameCount;
+
+                // THESE DID NOT WORK
+                //added this to see if create scaled bitmap is why i get a null render crash
+                bitmapTurtle = Bitmap.createScaledBitmap(
+                        bitmapTurtle,
+                        turtle_frameWidth * turtle_frameCount,
+                        turtle_frameHeight,
+                        false
+                );
             }else{
                 bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_245);
                 turtle_frameCount = turtle_idleFrameCount;
+
+                //else added same
+                bitmapTurtle = Bitmap.createScaledBitmap(
+                        bitmapTurtle,
+                        turtle_frameWidth * turtle_frameCount,
+                        turtle_frameHeight,
+                        false
+                );
             }
 
             //i dont think this needs to be called anymore
@@ -192,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
+                /*
                 worm_whereToDraw.set(
                         (int)wormXPosition,
                         0,
@@ -207,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
                         worm_whereToDraw,
                         paint
                 );
+                */
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
@@ -216,7 +246,8 @@ public class MainActivity extends AppCompatActivity {
             long time = System.currentTimeMillis();
             if (time > lastFrameChangeTime + frameLengthInMilliseconds) {  // this logic orig came after is moving logic
                 turtle_currentFrame++;
-                worm_currentFrame++;
+
+                //worm_currentFrame++;
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
                     //want this to be update frame function
@@ -237,8 +268,10 @@ public class MainActivity extends AppCompatActivity {
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
                 }
+                /*
                 if (worm_currentFrame >= worm_frameCount)
                     worm_currentFrame = 0;
+                    */
             }
 
 
@@ -248,8 +281,10 @@ public class MainActivity extends AppCompatActivity {
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
 
+            /*
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
             worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
+            */
         }
 
         public void pause() {
