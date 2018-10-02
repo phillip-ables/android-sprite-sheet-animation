@@ -18,7 +18,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    //the project that will hold the view
+    //the project that will hold the vie
     //and the sprite sheet animation
     GameView gameView;
 
