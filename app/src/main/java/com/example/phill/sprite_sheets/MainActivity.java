@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class GameView extends SurfaceView implements Runnable{
-        Thread gameThread = null;  // what is a type Thread
+        Thread gameThread = null;  // what is type Thread
 
         //We will need this when we use paint and canvas in thread
         SurfaceHolder ourHolder;
