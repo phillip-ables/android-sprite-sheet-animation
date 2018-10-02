@@ -95,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 turtle_frameHeight
         );
 
-        //i wounder if i loose the worm will it work
-        /*
-        //worm draw
+        //worm draw (we're good)
         private Rect worm_frameToDraw = new Rect(
                 0,
                 0,
@@ -111,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 wormXPosition + worm_frameWidth,
                 worm_frameHeight
         );
-        */
 
         //call new special constructor method runs
         public GameView(Context context) {
@@ -134,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
             );
 
             //worm
+
+
+            // HERE LIES THE PROBLEM
             /*
             bitmapWorm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_566_259);
 
@@ -143,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
                     worm_frameHeight,
                     false
             );
-            */        }
+            */
+        }
 
         @Override
         public void run() {
@@ -263,10 +264,8 @@ public class MainActivity extends AppCompatActivity {
                 //but for now
                 else{
                     lastFrameChangeTime = time;
-                    //turtle_currentFrame++;
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
-                    Log.e("ERR", "FRAME "+ turtle_currentFrame);
                 }
                 /*
                 if (worm_currentFrame >= worm_frameCount)
