@@ -39,16 +39,37 @@ public class MainActivity extends AppCompatActivity {
         volatile boolean playing;  // what is volatile
         Canvas canvas;
         Paint paint;
+
         long fps;  // game frame rate
         private long timeThisFrame;  // helps calculate the fps
+        private long lastFrameChangeTime;
+
+        private int frameLengthInMilliseconds = 150;
+
+        boolean isMoving = false;
+        boolean touch = false;
+
+        private int canvasWidth, canvasHeight;
+
+        Bitmap bitmap_turtle;
+        private int turtle_x;
+        private int turtle_y;
+        private int turtle_speed;
+        private int turtle_frameWidth = 300;
+        private int turtle_frameHeight = 125;
+        private int turtle_upFrameCount = 4;
+        private int turtle_idleFrameCount = 2;
+        private int turtle_frameCount;
+        private int turtle_currentFrame = 0;
+
 
         //Bitmaps for hire
         Bitmap bitmapWorm;
-        Bitmap bitmapTurtle;
+        //Bitmap bitmapTurtle;
         Bitmap bitmapBackground;
         Bitmap bitmapstraw;
 
-        boolean isMoving = false;
+        //boolean isMoving = false;
         //you need to find where these go
         float turtle_speedPerSecond = 250;
         float worm_speedPerSecond = 250;
@@ -59,24 +80,12 @@ public class MainActivity extends AppCompatActivity {
         float turtleXPosition = 5, turtleYPostition=5;
         float backgroundXPos = 0;
 
-        //when these increase the drawn picture is bigger
-        private int turtle_frameWidth = 350;
-        private int turtle_frameHeight = 150;
-        private int turtle_upFrameCount = 4;
-        private int turtle_idleFrameCount = 2;
-        private int turtle_frameCount;
-
         private int worm_frameWidth = 150;
         private int worm_frameHeight = 50;
         private int worm_frameCount;
 
-        private int turtle_currentFrame = 0;
         // dont think we need a frame count for everything that has only one animation
         private int worm_currentFrame = 0;  // we will need current frame for each so we can reset it to zero
-        private long lastFrameChangeTime = 0;
-
-        private int frameLengthInMilliseconds = 100;
-
 
         //draw, this will be a function after tonight
 
@@ -120,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
             //this is where what is in update was before i moved it
 
             //this was missing from round one
-            bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_245);
+            bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
             //i honestly think that this might be where the error is coming from
-            bitmapTurtle = Bitmap.createScaledBitmap(
-                    bitmapTurtle,
+            bitmap_turtle = Bitmap.createScaledBitmap(
+                    bitmap_turtle,
                     //turtle_frameWidth * turtle_frameCount,
                     50,
                     turtle_frameHeight,
@@ -164,24 +173,24 @@ public class MainActivity extends AppCompatActivity {
         public void update() {
             //junk code for which resource to use
             if(isMoving) {
-                bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
+                bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
                 turtle_frameCount = turtle_upFrameCount;
 
                 // THESE DID NOT WORK
                 //added this to see if create scaled bitmap is why i get a null render crash
-                bitmapTurtle = Bitmap.createScaledBitmap(
-                        bitmapTurtle,
+                bitmap_turtle = Bitmap.createScaledBitmap(
+                        bitmap_turtle,
                         turtle_frameWidth * turtle_frameCount,
                         turtle_frameHeight,
                         false
                 );
             }else{
-                bitmapTurtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_245);
+                bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
                 turtle_frameCount = turtle_idleFrameCount;
 
                 //else added same
-                bitmapTurtle = Bitmap.createScaledBitmap(
-                        bitmapTurtle,
+                bitmap_turtle = Bitmap.createScaledBitmap(
+                        bitmap_turtle,
                         turtle_frameWidth * turtle_frameCount,
                         turtle_frameHeight,
                         false
@@ -215,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 getCurrentFrame();
 
                 canvas.drawBitmap(
-                        bitmapTurtle,
+                        bitmap_turtle,
                         turtle_frameToDraw,
                         turtle_whereToDraw,
                         paint
