@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
         private int turtle_y;
-        private int turtle_speed;
+        private int turtle_speed = 5;
         private int turtle_frameWidth = 300;
         private int turtle_frameHeight = 125;
         private int turtle_upFrameCount = 4;
         private int turtle_idleFrameCount = 2;
         private int turtle_frameCount;
         private int turtle_currentFrame = 0;
-
+        float turtle_speedPerSecond = 250;
 
         //Bitmaps for hire
         Bitmap bitmapWorm;
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
         //boolean isMoving = false;
         //you need to find where these go
-        float turtle_speedPerSecond = 250;
         float worm_speedPerSecond = 250;
 
 
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 turtle_y,
                 //turtleXPosition + turtle_frameWidth,
                 turtle_x + turtle_frameWidth,
-                turtle_frameHeight
+                turtle_y + turtle_frameHeight
         );
 
         //worm draw (we're good)
@@ -134,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
             //this was missing from round one
             bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
             //i honestly think that this might be where the error is coming from
+
+
+
+
+
             bitmap_turtle = Bitmap.createScaledBitmap(
                     bitmap_turtle,
                     //turtle_frameWidth * turtle_frameCount,
@@ -245,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                         turtle_y,
                         //(int)turtleXPosition + turtle_frameWidth,
                         turtle_x + turtle_frameWidth,
-                        turtle_frameHeight
+                        turtle_y + turtle_frameHeight
                 );
 
                 getCurrentFrame();
@@ -277,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ourHolder.unlockCanvasAndPost(canvas);
                 //Log.e("x", ""+turtle_x);
-                //Log.e("y", ""+turtle_y);
+                Log.e("y", ""+turtle_y);
             }
         }
 
