@@ -191,12 +191,10 @@ public class MainActivity extends AppCompatActivity {
             //int maxTurtleY = 80;
             //turtle_y += turtle_speed;
 
-            /*
             if (turtle_y < minTurtleY)
                 turtle_y = minTurtleY;
             if (turtle_y > maxTurtleY)
                 turtle_y = maxTurtleY;
-                */
 
             //turtle_speed += 2;
 
