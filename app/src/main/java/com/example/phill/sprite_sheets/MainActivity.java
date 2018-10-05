@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         private int turtle_gravity = 3;
         private int turtle_jumpSpeed = 50;
 
-        private int turtle_scaleFactor = 15;
+        private int turtle_scaleFactor = 5;
         private int turtle_frameWidth = 300;
         private int turtle_frameHeight = 125;
         private int turtle_upFrameCount = 4;
@@ -144,10 +144,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+            //i dont think that hard coded value matters, other then an IllegalArgumentException and to give it a value greater then 0
             bitmap_turtle = Bitmap.createScaledBitmap(
                     bitmap_turtle,
-                    //turtle_frameWidth * turtle_frameCount,
-                    50,
+                    turtle_frameWidth,
                     turtle_frameHeight,
                     false
             );
@@ -173,8 +173,12 @@ public class MainActivity extends AppCompatActivity {
             canvasWidth = displayMetrics.widthPixels;
 
             //ITS GONNA BE A SQUARE FOR NOW
+            // here the scale is what it should be
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
-            turtle_frameHeight = lastCanvasHeight / turtle_scaleFactor;
+
+            //Log.e("FrameH", ""+turtle_frameHeight);  // value it initailized with
+            //Log.e("FrameW",""+turtle_frameWidth);  // scaled factor
+            //Log.e("canvas", ""+canvasWidth);  // every value that i log afterward
         }
 
         @Override
@@ -193,7 +197,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void update() {
-            turtle_frameWidth = canvasWidth;
+            //Log.e("FrameH","1Update "+turtle_frameHeight);  // these are still good
+            //Log.e("FrameW", "1Update "+turtle_frameWidth);
+
+            //wtf was this????
+            //turtle_frameWidth = canvasWidth;
 
             //canvasWidth = canvas.getWidth();
             //canvasHeight = canvas.getHeight();
@@ -202,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             canvasHeight = displayMetrics.heightPixels;
 
             if(lastCanvasHeight != displayMetrics.heightPixels){
+                Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
                 canvasHeight = displayMetrics.heightPixels;
                 Toast.makeText(MainActivity.this, "change height to " + canvasHeight, Toast.LENGTH_SHORT).show();
@@ -209,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //ITS GONNA BE A SQUARE FOR NOW
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
-                turtle_frameHeight = turtle_frameWidth;
+                turtle_frameHeight = canvasHeight / turtle_scaleFactor;
                 lastCanvasHeight = canvasHeight;
             }
 
@@ -249,6 +258,10 @@ public class MainActivity extends AppCompatActivity {
                         false
                 );
             }
+
+            Log.e("FrameH", "Update"+turtle_frameHeight);
+            Log.e("FrameW","Update "+turtle_frameWidth);
+
 
             //i dont think this needs to be called anymore
             /*
@@ -302,10 +315,16 @@ public class MainActivity extends AppCompatActivity {
                 );
                 */
 
+
+                Log.e("FrameW","Draw "+turtle_frameWidth);
+                Log.e("FrameH","Draw"+turtle_frameHeight);
+                Log.e("canvas", ""+canvasWidth);
+
                 ourHolder.unlockCanvasAndPost(canvas);
                 //Log.e("x", ""+turtle_x);
-                Log.e("y", ""+turtle_y);
+                //Log.e("y", ""+turtle_y);
             }
+
         }
 
         public void getCurrentFrame() {
