@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
-        private int turtle_y =5;
+        private int turtle_y;
         private int turtle_speed;
         private int turtle_frameWidth = 300;
         private int turtle_frameHeight = 125;
@@ -183,8 +183,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.e("height", ""+canvasHeight);
 
             int minTurtleY = bitmap_turtle.getHeight();
-            //int maxTurtleY = canvasHeight - (bitmap_turtle.getHeight());
-            int maxTurtleY = 80;
+            int maxTurtleY = canvasHeight - (bitmap_turtle.getHeight());
+            //int maxTurtleY = 80;
             //turtle_y += turtle_speed;
 
             /*
