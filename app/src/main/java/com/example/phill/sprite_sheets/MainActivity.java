@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,18 +51,23 @@ public class MainActivity extends AppCompatActivity {
         boolean isMoving = false;
         boolean touch = false;
 
-        private int canvasWidth, canvasHeight;
+        private int canvasWidth, canvasHeight, lastCanvasHeight;
 
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
         private int turtle_y;
         private int turtle_speed = 5;
+        private int turtle_gravity = 3;
+        private int turtle_jumpSpeed = 50;
+
+        private int turtle_scaleFactor = 15;
         private int turtle_frameWidth = 300;
         private int turtle_frameHeight = 125;
         private int turtle_upFrameCount = 4;
         private int turtle_idleFrameCount = 2;
         private int turtle_frameCount;
         private int turtle_currentFrame = 0;
+
         float turtle_speedPerSecond = 250;
 
         //Bitmaps for hire
@@ -160,6 +166,15 @@ public class MainActivity extends AppCompatActivity {
                     false
             );
             */
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            lastCanvasHeight = displayMetrics.heightPixels;
+            canvasWidth = displayMetrics.widthPixels;
+
+            //ITS GONNA BE A SQUARE FOR NOW
+            turtle_frameWidth = canvasWidth / turtle_scaleFactor;
+            turtle_frameHeight = lastCanvasHeight / turtle_scaleFactor;
         }
 
         @Override
@@ -178,25 +193,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void update() {
+            turtle_frameWidth = canvasWidth;
+
             //canvasWidth = canvas.getWidth();
             //canvasHeight = canvas.getHeight();
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int canvasHeight = displayMetrics.heightPixels;
-            int canvasWidth = displayMetrics.widthPixels;
-            //Log.e("height", ""+canvasHeight);
+            canvasHeight = displayMetrics.heightPixels;
+
+            if(lastCanvasHeight != displayMetrics.heightPixels){
+                canvasWidth = displayMetrics.widthPixels;
+                canvasHeight = displayMetrics.heightPixels;
+                Toast.makeText(MainActivity.this, "change height to " + canvasHeight, Toast.LENGTH_SHORT).show();
+
+
+                //ITS GONNA BE A SQUARE FOR NOW
+                turtle_frameWidth = canvasWidth / turtle_scaleFactor;
+                turtle_frameHeight = turtle_frameWidth;
+                lastCanvasHeight = canvasHeight;
+            }
 
             int minTurtleY = bitmap_turtle.getHeight();
             int maxTurtleY = canvasHeight - (bitmap_turtle.getHeight());
             //int maxTurtleY = 80;
-            //turtle_y += turtle_speed;
+            turtle_y += turtle_speed;
 
             if (turtle_y < minTurtleY)
                 turtle_y = minTurtleY;
             if (turtle_y > maxTurtleY)
                 turtle_y = maxTurtleY;
 
-            //turtle_speed += 2;
+            turtle_speed += turtle_gravity;
 
 
             //junk code for which resource to use
@@ -204,8 +231,6 @@ public class MainActivity extends AppCompatActivity {
                 bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
                 turtle_frameCount = turtle_upFrameCount;
 
-                // THESE DID NOT WORK
-                //added this to see if create scaled bitmap is why i get a null render crash
                 bitmap_turtle = Bitmap.createScaledBitmap(
                         bitmap_turtle,
                         turtle_frameWidth * turtle_frameCount,
@@ -345,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     isMoving = true;
-                    turtle_speed -= 22;
+                    turtle_speed -= turtle_jumpSpeed;
                     break;
 
                 case MotionEvent.ACTION_UP:
