@@ -203,30 +203,9 @@ public class MainActivity extends AppCompatActivity {
             if(isMoving) {
                 bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);
                 turtle_frameCount = turtle_upFrameCount;
-
-                bitmap_turtle = Bitmap.createScaledBitmap(
-                        bitmap_turtle,
-                        turtle_frameWidth * turtle_frameCount,
-                        turtle_frameHeight,
-                        false
-                );
             }else{
                 bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
                 turtle_frameCount = turtle_idleFrameCount;
-
-
-
-
-
-                //wonder if this could go in the draw method
-                //or atleast out of here because
-                //its used on both sides of the fence
-                bitmap_turtle = Bitmap.createScaledBitmap(
-                        bitmap_turtle,
-                        turtle_frameWidth * turtle_frameCount,
-                        turtle_frameHeight,
-                        false
-                );
             }
         }
 
@@ -238,6 +217,12 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.argb(255, 249, 129, 0));
                 paint.setTextSize(45);
 
+                bitmap_turtle = Bitmap.createScaledBitmap(
+                        bitmap_turtle,
+                        turtle_frameWidth * turtle_frameCount,
+                        turtle_frameHeight,
+                        false
+                );
 
                 turtle_whereToDraw.set(
                         turtle_x,
