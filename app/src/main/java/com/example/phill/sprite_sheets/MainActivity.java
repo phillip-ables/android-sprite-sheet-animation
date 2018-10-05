@@ -75,25 +75,17 @@ public class MainActivity extends AppCompatActivity {
         //Bitmap bitmapTurtle;
         Bitmap bitmapBackground;
         Bitmap bitmapstraw;
-
-        //boolean isMoving = false;
-        //you need to find where these go
-        float worm_speedPerSecond = 250;
-
-
-        //this needs fixed or handled, i hate generic values
-        float wormXPosition = 300, wormYPosition=300;
-        //float turtleXPosition = 5, turtleYPostition=5;
         float backgroundXPos = 0;
+
+        private int worm_x = 5;
+        private int worm_y;
+
+        float worm_speedPerSecond = 250;
 
         private int worm_frameWidth = 150;
         private int worm_frameHeight = 50;
         private int worm_frameCount;
-
-        // dont think we need a frame count for everything that has only one animation
         private int worm_currentFrame = 0;  // we will need current frame for each so we can reset it to zero
-
-        //draw, this will be a function after tonight
 
         //Turtle draw
         private Rect turtle_frameToDraw = new Rect(
@@ -115,14 +107,14 @@ public class MainActivity extends AppCompatActivity {
         private Rect worm_frameToDraw = new Rect(
                 0,
                 0,
-                turtle_frameWidth,
-                turtle_frameHeight
+                worm_frameWidth,
+                worm_frameHeight
         );
 
         RectF worm_whereToDraw = new RectF(
-                wormXPosition,
-                wormYPosition,
-                wormXPosition + worm_frameWidth,
+                worm_x,
+                worm_y,
+                worm_x + worm_frameWidth,
                 worm_frameHeight
         );
 
@@ -134,17 +126,7 @@ public class MainActivity extends AppCompatActivity {
             ourHolder = getHolder();
             paint = new Paint();
 
-            //this is where what is in update was before i moved it
-
-            //this was missing from round one
             bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
-            //i honestly think that this might be where the error is coming from
-
-
-
-
-
-            //i dont think that hard coded value matters, other then an IllegalArgumentException and to give it a value greater then 0
             bitmap_turtle = Bitmap.createScaledBitmap(
                     bitmap_turtle,
                     turtle_frameWidth,
@@ -172,13 +154,7 @@ public class MainActivity extends AppCompatActivity {
             lastCanvasHeight = displayMetrics.heightPixels;
             canvasWidth = displayMetrics.widthPixels;
 
-            //ITS GONNA BE A SQUARE FOR NOW
-            // here the scale is what it should be
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
-
-            //Log.e("FrameH", ""+turtle_frameHeight);  // value it initailized with
-            //Log.e("FrameW",""+turtle_frameWidth);  // scaled factor
-            //Log.e("canvas", ""+canvasWidth);  // every value that i log afterward
         }
 
         @Override
@@ -197,14 +173,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void update() {
-            //Log.e("FrameH","1Update "+turtle_frameHeight);  // these are still good
-            //Log.e("FrameW", "1Update "+turtle_frameWidth);
-
-            //wtf was this????
-            //turtle_frameWidth = canvasWidth;
-
-            //canvasWidth = canvas.getWidth();
-            //canvasHeight = canvas.getHeight();
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
@@ -213,31 +181,27 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
                 canvasHeight = displayMetrics.heightPixels;
-                Toast.makeText(MainActivity.this, "change height to " + canvasHeight, Toast.LENGTH_SHORT).show();
 
-
-                //ITS GONNA BE A SQUARE FOR NOW
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
                 turtle_frameHeight = canvasHeight / turtle_scaleFactor;
                 lastCanvasHeight = canvasHeight;
             }
 
             int minTurtleY = bitmap_turtle.getHeight();
-            int maxTurtleY = canvasHeight - (bitmap_turtle.getHeight());
-            //int maxTurtleY = 80;
-            turtle_y += turtle_speed;
+            int maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
+            turtle_y += turtle_speed;  // i think below is a better substitute for this
+            //turtle_y += (turtle_speedPerSecond / fps);
+            turtle_speed += turtle_gravity;
+
 
             if (turtle_y < minTurtleY)
                 turtle_y = minTurtleY;
             if (turtle_y > maxTurtleY)
                 turtle_y = maxTurtleY;
 
-            turtle_speed += turtle_gravity;
-
-
             //junk code for which resource to use
             if(isMoving) {
-                bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
+                bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);
                 turtle_frameCount = turtle_upFrameCount;
 
                 bitmap_turtle = Bitmap.createScaledBitmap(
@@ -250,7 +214,13 @@ public class MainActivity extends AppCompatActivity {
                 bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
                 turtle_frameCount = turtle_idleFrameCount;
 
-                //else added same
+
+
+
+
+                //wonder if this could go in the draw method
+                //or atleast out of here because
+                //its used on both sides of the fence
                 bitmap_turtle = Bitmap.createScaledBitmap(
                         bitmap_turtle,
                         turtle_frameWidth * turtle_frameCount,
@@ -258,17 +228,6 @@ public class MainActivity extends AppCompatActivity {
                         false
                 );
             }
-
-            Log.e("FrameH", "Update"+turtle_frameHeight);
-            Log.e("FrameW","Update "+turtle_frameWidth);
-
-
-            //i dont think this needs to be called anymore
-            /*
-            if(isMoving){
-                turtleXPosition = turtleXPosition + (turtle_speedPerSecond / fps);
-            }
-            */
         }
 
         public void draw() {
@@ -283,11 +242,11 @@ public class MainActivity extends AppCompatActivity {
                 turtle_whereToDraw.set(
                         turtle_x,
                         turtle_y,
-                        //(int)turtleXPosition + turtle_frameWidth,
                         turtle_x + turtle_frameWidth,
                         turtle_y + turtle_frameHeight
                 );
 
+                //not sure why this is here
                 getCurrentFrame();
 
                 canvas.drawBitmap(
@@ -297,32 +256,7 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
-                /*
-                worm_whereToDraw.set(
-                        (int)wormXPosition,
-                        0,
-                        (int)wormXPosition + worm_frameWidth,
-                        worm_frameHeight
-                );
-
-                getCurrentFrame();
-
-                canvas.drawBitmap(
-                        bitmapWorm,
-                        worm_frameToDraw,
-                        worm_whereToDraw,
-                        paint
-                );
-                */
-
-
-                Log.e("FrameW","Draw "+turtle_frameWidth);
-                Log.e("FrameH","Draw"+turtle_frameHeight);
-                Log.e("canvas", ""+canvasWidth);
-
                 ourHolder.unlockCanvasAndPost(canvas);
-                //Log.e("x", ""+turtle_x);
-                //Log.e("y", ""+turtle_y);
             }
 
         }
@@ -351,23 +285,9 @@ public class MainActivity extends AppCompatActivity {
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
                 }
-                /*
-                if (worm_currentFrame >= worm_frameCount)
-                    worm_currentFrame = 0;
-                    */
             }
-
-
-
-            //only the turtle can move moving
-
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
-
-            /*
-            worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
-            worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
-            */
         }
 
         public void pause() {
