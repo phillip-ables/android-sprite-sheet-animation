@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         private int canvasWidth, canvasHeight;
 
         Bitmap bitmap_turtle;
-        private int turtle_x;
+        private int turtle_x = 5;
         private int turtle_y;
         private int turtle_speed;
         private int turtle_frameWidth = 300;
@@ -98,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
         );
 
         RectF turtle_whereToDraw = new RectF(
-                turtleXPosition,
-                turtleYPostition,
+                turtle_x,
+                turtle_y,
                 turtleXPosition + turtle_frameWidth,
                 turtle_frameHeight
         );
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 wormXPosition + worm_frameWidth,
                 worm_frameHeight
         );
+
 
         //call new special constructor method runs
         public GameView(Context context) {
@@ -171,6 +173,29 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void update() {
+            //canvasWidth = canvas.getWidth();
+            //canvasHeight = canvas.getHeight();
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int canvasHeight = displayMetrics.heightPixels;
+            int canvasWidth = displayMetrics.widthPixels;
+            //Log.e("height", ""+canvasHeight);
+
+            int minTurtleY = bitmap_turtle.getHeight();
+            //int maxTurtleY = canvasHeight - (bitmap_turtle.getHeight());
+            int maxTurtleY = 80;
+            //turtle_y += turtle_speed;
+
+            /*
+            if (turtle_y < minTurtleY)
+                turtle_y = minTurtleY;
+            if (turtle_y > maxTurtleY)
+                turtle_y = maxTurtleY;
+                */
+
+            //turtle_speed += 2;
+
+
             //junk code for which resource to use
             if(isMoving) {
                 bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_up_350_235);  // these really should be the same height for contentuities sake
@@ -215,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 turtle_whereToDraw.set(
-                        (int)turtleXPosition,
-                        0,
+                        turtle_x,
+                        turtle_y,
                         (int)turtleXPosition + turtle_frameWidth,
                         turtle_frameHeight
                 );
@@ -249,6 +274,8 @@ public class MainActivity extends AppCompatActivity {
                 */
 
                 ourHolder.unlockCanvasAndPost(canvas);
+                //Log.e("x", ""+turtle_x);
+                Log.e("y", ""+turtle_y);
             }
         }
 
@@ -314,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     isMoving = true;
+                    turtle_speed -= 22;
                     break;
 
                 case MotionEvent.ACTION_UP:
