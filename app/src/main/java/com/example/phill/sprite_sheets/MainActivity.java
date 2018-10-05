@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
-        private int turtle_y;
+        private int turtle_y =5;
         private int turtle_speed;
         private int turtle_frameWidth = 300;
         private int turtle_frameHeight = 125;
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         //this needs fixed or handled, i hate generic values
         float wormXPosition = 300, wormYPosition=300;
-        float turtleXPosition = 5, turtleYPostition=5;
+        //float turtleXPosition = 5, turtleYPostition=5;
         float backgroundXPos = 0;
 
         private int worm_frameWidth = 150;
@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         RectF turtle_whereToDraw = new RectF(
                 turtle_x,
                 turtle_y,
-                turtleXPosition + turtle_frameWidth,
+                //turtleXPosition + turtle_frameWidth,
+                turtle_x + turtle_frameWidth,
                 turtle_frameHeight
         );
 
@@ -242,7 +243,8 @@ public class MainActivity extends AppCompatActivity {
                 turtle_whereToDraw.set(
                         turtle_x,
                         turtle_y,
-                        (int)turtleXPosition + turtle_frameWidth,
+                        //(int)turtleXPosition + turtle_frameWidth,
+                        turtle_x + turtle_frameWidth,
                         turtle_frameHeight
                 );
 
