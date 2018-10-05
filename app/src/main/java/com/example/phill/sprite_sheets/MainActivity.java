@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ourHolder.unlockCanvasAndPost(canvas);
                 //Log.e("x", ""+turtle_x);
-                Log.e("y", ""+turtle_y);
+                //Log.e("y", ""+turtle_y);
             }
         }
 
