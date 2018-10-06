@@ -169,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
                 if (timeThisFrame >= 1) {
                     fps = 1000 / timeThisFrame;
                 }
+
+                //if(!isOneShot)
+                //    isMoving = false;
             }
         }
 
@@ -176,9 +179,6 @@ public class MainActivity extends AppCompatActivity {
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
-
-            if(!isOneShot)
-                isMoving = false;
 
             if(lastCanvasHeight != displayMetrics.heightPixels){
                 Log.e("CHANGE", "reset frameWidth");
@@ -256,7 +256,8 @@ public class MainActivity extends AppCompatActivity {
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
                     if (turtle_currentFrame >= turtle_upFrameCount){
-                        isOneShot = false;
+                        //isOneShot = false;
+                        isMoving = false;
                         turtle_frameCount = 0;
                     }
                 }
@@ -287,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
         public boolean onTouchEvent(MotionEvent motionEvent) {
             if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                isOneShot = true;
+                //isOneShot = true;
                 isMoving = true;
                 turtle_speed -= turtle_jumpSpeed;
             }
