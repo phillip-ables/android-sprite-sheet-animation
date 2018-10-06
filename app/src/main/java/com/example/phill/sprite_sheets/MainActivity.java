@@ -49,16 +49,16 @@ public class MainActivity extends AppCompatActivity {
         private int frameLengthInMilliseconds = 150;
 
         boolean isMoving = false;
-        boolean touch = false;
+        boolean isOneShot = false;
 
         private int canvasWidth, canvasHeight, lastCanvasHeight;
 
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
         private int turtle_y;
-        private int turtle_speed = 5;
-        private int turtle_gravity = 3;
-        private int turtle_jumpSpeed = 50;
+        private int turtle_speed = 4;
+        private int turtle_gravity = 2;
+        private int turtle_jumpSpeed = 40;
 
         private int turtle_scaleFactor = 5;
         private int turtle_frameWidth = 300;
@@ -177,6 +177,9 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
 
+            if(!isOneShot)
+                isMoving = false;
+
             if(lastCanvasHeight != displayMetrics.heightPixels){
                 Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
@@ -250,21 +253,13 @@ public class MainActivity extends AppCompatActivity {
             long time = System.currentTimeMillis();
             if (time > lastFrameChangeTime + frameLengthInMilliseconds) {  // this logic orig came after is moving logic
                 turtle_currentFrame++;
-
-                //worm_currentFrame++;
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
-                    //want this to be update frame function
-                    //update frame count
-                    //check current frame
-                    if (turtle_currentFrame >= turtle_upFrameCount) {
-                        turtle_currentFrame = 0;
+                    if (turtle_currentFrame >= turtle_upFrameCount){
+                        isOneShot = false;
+                        turtle_frameCount = 0;
                     }
                 }
-                //this would be the not moving section
-                //i think instead of re using that code we could just use the base
-                //pass in which animation based of is moving logic
-                //but for now
                 else{
                     lastFrameChangeTime = time;
                     if(turtle_currentFrame >= turtle_idleFrameCount)
@@ -291,16 +286,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public boolean onTouchEvent(MotionEvent motionEvent) {
+            if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                isOneShot = true;
+                isMoving = true;
+                turtle_speed -= turtle_jumpSpeed;
+            }
+
+            /*
             switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
+                    isOneShot = true;
                     isMoving = true;
                     turtle_speed -= turtle_jumpSpeed;
                     break;
 
                 case MotionEvent.ACTION_UP:
-                    isMoving = false;
+                    if(!isOneShot) {
+                        isMoving = false;
+                    }
                     break;
             }
+            */
             return true;
         }
     }
