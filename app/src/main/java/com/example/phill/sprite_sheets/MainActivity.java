@@ -67,8 +67,18 @@ public class MainActivity extends AppCompatActivity {
         private int turtle_idleFrameCount = 2;
         private int turtle_frameCount;
         private int turtle_currentFrame = 0;
+        //float turtle_speedPerSecond = 250;
 
-        float turtle_speedPerSecond = 250;
+        Bitmap bitmap_worm;
+        private int worm_x;
+        private int worm_y;
+        private int worm_speed;
+
+        private int worm_scaleFactor = 10
+        private int worm_frameWidth = 20;
+        private int worm_frameHeight = 20;
+        private int worm_frameCount = 4;
+        private int worm_currentFrame;
 
         //Bitmaps for hire
         Bitmap bitmapWorm;
@@ -76,16 +86,6 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmapBackground;
         Bitmap bitmapstraw;
         float backgroundXPos = 0;
-
-        private int worm_x = 5;
-        private int worm_y;
-
-        float worm_speedPerSecond = 250;
-
-        private int worm_frameWidth = 150;
-        private int worm_frameHeight = 50;
-        private int worm_frameCount;
-        private int worm_currentFrame = 0;  // we will need current frame for each so we can reset it to zero
 
         //Turtle draw
         private Rect turtle_frameToDraw = new Rect(
