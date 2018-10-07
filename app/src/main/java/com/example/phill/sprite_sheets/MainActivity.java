@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         boolean isOneShot = false;
 
         private int canvasWidth, canvasHeight, lastCanvasHeight;
+        private int score, lifeCounterOfTurtle;
+        private Paint scorePaint = new Paint();
+        private Bitmap life[] = new Bitmap[2];
 
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
