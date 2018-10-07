@@ -71,12 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_worm;
         private int worm_x = 200;
-        private int worm_y = turtle_y;
-        private int worm_speed;
+        private int worm_y = 300;
+        private int worm_speed = 5;
 
-        private int worm_scaleFactor = 10;
-        private int worm_frameWidth = 20;
-        private int worm_frameHeight = 20;
+        private int worm_scaleWidth = 8;
+        private int worm_scaleHeight = 3 * worm_scaleWidth;
+        private int worm_frameWidth = 200;
+        private int worm_frameHeight = 93;
         private int worm_frameCount = 4;
         private int worm_currentFrame;
 
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
             //worm
-            bitmap_worm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_566_259);
+            bitmap_worm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_200_93);
             bitmap_worm = Bitmap.createScaledBitmap(
                     bitmap_worm,
                     worm_frameWidth,
@@ -150,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
             canvasWidth = displayMetrics.widthPixels;
 
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
-            worm_frameWidth = canvasWidth / worm_scaleFactor;
+            worm_frameWidth = canvasWidth / worm_scaleWidth;
+            worm_frameHeight = lastCanvasHeight/ worm_scaleHeight;
         }
 
         @Override
@@ -184,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
                 turtle_frameHeight = canvasHeight / turtle_scaleFactor;
 
-                worm_frameWidth = canvasWidth / worm_scaleFactor;
-                worm_frameHeight = canvasHeight / worm_scaleFactor;
+                worm_frameWidth = canvasWidth / worm_scaleWidth;
+                worm_frameHeight = canvasHeight / worm_scaleHeight;
 
                 lastCanvasHeight = canvasHeight;
             }
@@ -284,8 +286,8 @@ public class MainActivity extends AppCompatActivity {
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
                     if (turtle_currentFrame >= turtle_upFrameCount){
                         //isOneShot = false;
-                        isMoving = false;
                         turtle_frameCount = 0;
+                        isMoving = false;
                     }
                 }
                 else{
@@ -300,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
 
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
-            worm_frameToDraw.right = worm_currentFrame + worm_frameWidth;
+            worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
         }
 
         public void pause() {
