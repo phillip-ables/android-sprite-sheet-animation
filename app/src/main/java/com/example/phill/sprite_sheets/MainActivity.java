@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -157,6 +158,14 @@ public class MainActivity extends AppCompatActivity {
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
             worm_frameWidth = canvasWidth / worm_scaleWidth;
             worm_frameHeight = lastCanvasHeight/ worm_scaleHeight;
+
+            //DISPLAYS
+            scorePaint.setColor(Color.WHITE);
+            scorePaint.setTextSize(70);
+            scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
+            scorePaint.setAntiAlias(true);
+
+            life[0] =
 
         }
 
