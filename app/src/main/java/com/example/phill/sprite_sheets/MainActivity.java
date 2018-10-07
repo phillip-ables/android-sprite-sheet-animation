@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap_worm;
         private int worm_x = 200;
         private int worm_y = 300;
-        private int worm_speed = 5;
+        private int worm_speed = 16;
 
         private int worm_scaleWidth = 8;
         private int worm_scaleHeight = 3 * worm_scaleWidth;
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     false
             );
 
+
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             lastCanvasHeight = displayMetrics.heightPixels;
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
             worm_frameWidth = canvasWidth / worm_scaleWidth;
             worm_frameHeight = lastCanvasHeight/ worm_scaleHeight;
+
         }
 
         @Override
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
 
-            if(lastCanvasHeight != displayMetrics.heightPixels){
+            if(lastCanvasHeight != canvasHeight){
                 Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
                 canvasHeight = displayMetrics.heightPixels;
@@ -303,6 +305,13 @@ public class MainActivity extends AppCompatActivity {
 
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
             worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
+        }
+
+        public boolean collisionChecker(int x, int y){
+            if(turtle_x < x && x < (turtle_x + bitmap_turtle.getWidth()) &&
+                    turtle_y < y && y < (turtle_y + turtle_frameWidth))
+                return true;
+            return false;
         }
 
         public void pause() {
