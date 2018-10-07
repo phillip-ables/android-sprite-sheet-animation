@@ -215,6 +215,17 @@ public class MainActivity extends AppCompatActivity {
                 bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
                 turtle_frameCount = turtle_idleFrameCount;
             }
+
+            //worm logic
+            if(collisionChecker(worm_x, worm_y)){
+                //score += 10;
+                worm_x -= 300;
+            }
+            worm_x -= worm_speed;
+            if(worm_x < 0){
+                worm_x = canvasWidth + worm_frameWidth;
+                worm_y = (int) Math.floor(Math.random() * (maxTurtleY - minTurtleY) + minTurtleY);
+            }
         }
 
         public void draw() {
