@@ -70,18 +70,19 @@ public class MainActivity extends AppCompatActivity {
         //float turtle_speedPerSecond = 250;
 
         Bitmap bitmap_worm;
-        private int worm_x;
-        private int worm_y;
+        private int worm_x = 200;
+        private int worm_y = turtle_y;
         private int worm_speed;
 
-        private int worm_scaleFactor = 10
+        private int worm_scaleFactor = 10;
         private int worm_frameWidth = 20;
         private int worm_frameHeight = 20;
         private int worm_frameCount = 4;
         private int worm_currentFrame;
 
         //Bitmaps for hire
-        Bitmap bitmapWorm;
+
+        //Bitmap bitmapWorm;
         //Bitmap bitmapTurtle;
         Bitmap bitmapBackground;
         Bitmap bitmapstraw;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 worm_x,
                 worm_y,
                 worm_x + worm_frameWidth,
-                worm_frameHeight
+                worm_y + worm_frameHeight
         );
 
 
@@ -135,19 +136,13 @@ public class MainActivity extends AppCompatActivity {
             );
 
             //worm
-
-
-            // HERE LIES THE PROBLEM
-            /*
-            bitmapWorm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_566_259);
-
-            bitmapWorm = Bitmap.createScaledBitmap(
-                    bitmapWorm,
-                    worm_frameWidth * worm_frameCount,
+            bitmap_worm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_566_259);
+            bitmap_worm = Bitmap.createScaledBitmap(
+                    bitmap_worm,
+                    worm_frameWidth,
                     worm_frameHeight,
                     false
             );
-            */
 
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -155,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             canvasWidth = displayMetrics.widthPixels;
 
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
+            worm_frameWidth = canvasWidth / worm_scaleFactor;
         }
 
         @Override
@@ -187,12 +183,17 @@ public class MainActivity extends AppCompatActivity {
 
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
                 turtle_frameHeight = canvasHeight / turtle_scaleFactor;
+
+                worm_frameWidth = canvasWidth / worm_scaleFactor;
+                worm_frameHeight = canvasHeight / worm_scaleFactor;
+
                 lastCanvasHeight = canvasHeight;
             }
 
             int minTurtleY = bitmap_turtle.getHeight();
             int maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
-            turtle_y += turtle_speed;  // i think below is a better substitute for this
+            turtle_y += turtle_speed;
+            // i think below is a better substitute for this
             //turtle_y += (turtle_speedPerSecond / fps);
             turtle_speed += turtle_gravity;
 
@@ -220,19 +221,34 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.argb(255, 249, 129, 0));
                 paint.setTextSize(45);
 
+                //this will be placed in a final draw function
                 bitmap_turtle = Bitmap.createScaledBitmap(
                         bitmap_turtle,
                         turtle_frameWidth * turtle_frameCount,
                         turtle_frameHeight,
                         false
                 );
-
                 turtle_whereToDraw.set(
                         turtle_x,
                         turtle_y,
                         turtle_x + turtle_frameWidth,
                         turtle_y + turtle_frameHeight
                 );
+
+                //WORM
+                bitmap_worm = Bitmap.createScaledBitmap(
+                  bitmap_worm,
+                  worm_frameWidth * worm_frameCount,
+                  worm_frameHeight,
+                  false
+                );
+                worm_whereToDraw.set(
+                        worm_x,
+                        worm_y,
+                        worm_x + worm_frameWidth,
+                        worm_y + worm_frameHeight
+                );
+
 
                 //not sure why this is here
                 getCurrentFrame();
@@ -243,6 +259,16 @@ public class MainActivity extends AppCompatActivity {
                         turtle_whereToDraw,
                         paint
                 );
+
+                canvas.drawBitmap(
+                        bitmap_worm,
+                        worm_frameToDraw,
+                        worm_whereToDraw,
+                        paint
+                );
+
+
+
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
