@@ -165,7 +165,11 @@ public class MainActivity extends AppCompatActivity {
             scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
             scorePaint.setAntiAlias(true);
 
-            life[0] =
+            life[0] = BitmapFactory.decodeResource(getResources(), R.drawable.hearts);
+            life[1] = BitmapFactory.decodeResource(getResources(), R.drawable.heart_grey);
+
+            score = 0;
+            lifeCounterOfTurtle = 3;
 
         }
 
