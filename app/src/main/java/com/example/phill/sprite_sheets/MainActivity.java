@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         private Paint scorePaint = new Paint();
         private Bitmap life[] = new Bitmap[2];
 
+        Bitmap bitmap_background;
+        private int background_x, background_speed = 7;
+
         Bitmap bitmap_turtle;
         private int turtle_x = 5;
         private int turtle_y;
@@ -160,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
             worm_frameHeight = lastCanvasHeight/ worm_scaleHeight;
 
             //DISPLAYS
+            bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            background_x = 0;
+
             scorePaint.setColor(Color.WHITE);
             scorePaint.setTextSize(70);
             scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
@@ -232,9 +238,14 @@ public class MainActivity extends AppCompatActivity {
                 turtle_frameCount = turtle_idleFrameCount;
             }
 
+            //BACKGROUND
+            background_x -= background_speed;
+            if(Math.abs(background_x) >= canvasWidth )
+                background_x = 0;
+
             //worm logic
             if(collisionChecker(worm_x, worm_y)){
-                //score += 10;
+                score += 10;
                 worm_x -= 300;
             }
             worm_x -= worm_speed;
@@ -251,6 +262,21 @@ public class MainActivity extends AppCompatActivity {
                 canvas.drawColor(Color.argb(255, 26, 128, 182));
                 paint.setColor(Color.argb(255, 249, 129, 0));
                 paint.setTextSize(45);
+
+                canvas.drawBitmap(bitmap_background, background_x, 0, null);
+
+                canvas.drawText("Score : "+ score, 20, 60, scorePaint);
+
+                //HEARTS
+                for(int i = 0; i < 3; i++){
+                    int x = (canvasWidth - 100 - (100 * i));
+                    int y = 10;
+
+                    if( i < lifeCounterOfTurtle)
+                        canvas.drawBitmap(life[0], x, y, null);
+                    else
+                        canvas.drawBitmap(life[1], x, y, null);
+                }
 
                 //this will be placed in a final draw function
                 bitmap_turtle = Bitmap.createScaledBitmap(
