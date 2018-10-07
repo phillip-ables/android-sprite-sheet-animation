@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity {
             long time = System.currentTimeMillis();
             if (time > lastFrameChangeTime + frameLengthInMilliseconds) {  // this logic orig came after is moving logic
                 turtle_currentFrame++;
+                worm_currentFrame++;
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
                     if (turtle_currentFrame >= turtle_upFrameCount){
@@ -292,9 +293,14 @@ public class MainActivity extends AppCompatActivity {
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
                 }
+                if(worm_currentFrame >= worm_frameCount)
+                    worm_currentFrame = 0;
             }
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
+
+            worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
+            worm_frameToDraw.right = worm_currentFrame + worm_frameWidth;
         }
 
         public void pause() {
