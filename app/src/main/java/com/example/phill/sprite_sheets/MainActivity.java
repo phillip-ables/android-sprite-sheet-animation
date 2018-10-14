@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         private int frameLengthInMilliseconds = 150;
 
         boolean isMoving = false;
-        boolean isOneShot = false;
+        //boolean isOneShot = false;
 
         private int canvasWidth, canvasHeight, lastCanvasHeight;
         private int score, lifeCounterOfTurtle;
@@ -61,11 +61,14 @@ public class MainActivity extends AppCompatActivity {
         private int background_x, background_speed = 7;
 
         Bitmap bitmap_turtle;
+        Bitmap bitmap_turtleEffect;
         private int turtle_x = 5;
         private int turtle_y;
         private int turtle_speed = 4;
         private int turtle_gravity = 2;
         private int turtle_jumpSpeed = 40;
+        private int turtle_sink = 35;
+        private int turtle_fly = -35;
 
         private int turtle_scaleFactor = 5;
         private int turtle_frameWidth = 300;
@@ -224,10 +227,17 @@ public class MainActivity extends AppCompatActivity {
             turtle_speed += turtle_gravity;
 
 
-            if (turtle_y < minTurtleY)
+            if (turtle_y < minTurtleY) {
                 turtle_y = minTurtleY;
-            if (turtle_y > maxTurtleY)
+                turtle_speed = turtle_sink;
+                splashEffect(turtle_x, turtle_y);
+            }
+            if (turtle_y > maxTurtleY) {
                 turtle_y = maxTurtleY;
+                turtle_speed = turtle_fly;
+                skidEffect(turtle_x, turtle_y);
+            }
+            Log.e("Speed",""+turtle_speed);
 
             //junk code for which resource to use
             if(isMoving) {
@@ -410,6 +420,14 @@ public class MainActivity extends AppCompatActivity {
             }
             */
             return true;
+        }
+
+        public void splashEffect(int x, int y) {
+            Log.e("slash", "");
+        }
+
+        public void skidEffect(int x, int y) {
+            Log.e("slash", "");
         }
     }
     @Override
