@@ -79,27 +79,6 @@ public class MainActivity extends AppCompatActivity {
         private int turtle_currentFrame = 0;
         //float turtle_speedPerSecond = 250;
 
-        Bitmap bitmap_worm;
-        private int worm_x = 200;
-        private int worm_y = 300;
-        private int worm_speed = 16;
-
-        private int worm_scaleWidth = 8;
-        private int worm_scaleHeight = 3 * worm_scaleWidth;
-        private int worm_frameWidth = 200;
-        private int worm_frameHeight = 93;
-        private int worm_frameCount = 4;
-        private int worm_currentFrame;
-
-        //Bitmaps for hire
-
-        //Bitmap bitmapWorm;
-        //Bitmap bitmapTurtle;
-        Bitmap bitmapBackground;
-        Bitmap bitmapstraw;
-        float backgroundXPos = 0;
-
-        //Turtle draw
         private Rect turtle_frameToDraw = new Rect(
                 0,
                 0,
@@ -115,7 +94,18 @@ public class MainActivity extends AppCompatActivity {
                 turtle_y + turtle_frameHeight
         );
 
-        //worm draw (we're good)
+        Bitmap bitmap_worm;
+        private int worm_x = 200;
+        private int worm_y = 300;
+        private int worm_speed = 16;
+
+        private int worm_scaleWidth = 8;
+        private int worm_scaleHeight = 3 * worm_scaleWidth;
+        private int worm_frameWidth = 200;
+        private int worm_frameHeight = 93;
+        private int worm_frameCount = 4;
+        private int worm_currentFrame;
+
         private Rect worm_frameToDraw = new Rect(
                 0,
                 0,
@@ -129,6 +119,83 @@ public class MainActivity extends AppCompatActivity {
                 worm_x + worm_frameWidth,
                 worm_y + worm_frameHeight
         );
+
+        Bitmap bitmap_splashEffect;
+        private int splash_x;
+        private int splash_velocity;
+        private int splash_frameWidth;
+        private int splash_frameHeight;
+        private int splash_scaleWidth;
+        private int splash_scaleHeight;
+        private int splash_frameCount;
+        private int splash_currentFrame;
+        private Rect splash_frameToDraw = new Rect(
+                0,
+                0,
+                worm_frameWidth,
+                worm_frameHeight
+        );
+
+        RectF splash_whereToDraw = new RectF(
+                worm_x,
+                worm_y,
+                worm_x + worm_frameWidth,
+                worm_y + worm_frameHeight
+        );
+
+        Bitmap bitmap_sparkEffect;
+        private int spark_x;
+        private int spark_velocity;
+        private int spark_frameWidth;
+        private int spark_frameHeight;
+        private int spark_scaleWidth;
+        private int spark_scaleHeight;
+        private int spark_frameCount;
+        private int spark_currentFrame;
+        private Rect spark_frameToDraw = new Rect(
+                0,
+                0,
+                spark_frameWidth,
+                spark_frameHeight
+        );
+
+        RectF spark_whereToDraw = new RectF(
+                spark_x,
+                10,
+                spark_x + spark_frameWidth,
+                10 + spark_frameHeight
+        );
+
+        Bitmap bitmap_dropEffect;
+        private int drop_x;
+        private int drop_velocity;
+        private int drop_frameWidth;
+        private int drop_frameHeight;
+        private int drop_scaleWidth;
+        private int drop_scaleHeight;
+        private int drop_frameCount;
+        private int drop_currentFrame;
+        private Rect drop_frameToDraw = new Rect(
+                0,
+                0,
+                drop_frameWidth,
+                drop_frameHeight
+        );
+
+        RectF drop_whereToDraw = new RectF(
+                drop_x,
+                turtle_y,
+                drop_x + drop_frameWidth,
+                worm_y + drop_frameHeight
+        );
+
+        //Bitmaps for hire
+
+        //Bitmap bitmapWorm;
+        //Bitmap bitmapTurtle;
+        Bitmap bitmapBackground;
+        Bitmap bitmapstraw;
+        float backgroundXPos = 0;
 
 
         //call new special constructor method runs
