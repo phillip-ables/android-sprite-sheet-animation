@@ -339,13 +339,18 @@ public class MainActivity extends AppCompatActivity {
                 worm_currentFrame++;
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
+                    //Log.e("touch", "count: "+ turtle_currentFrame);
                     if (turtle_currentFrame >= turtle_upFrameCount){
                         //isOneShot = false;
-                        turtle_frameCount = 0;
+                        //bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
+                        //turtle_frameCount = turtle_idleFrameCount;
+                        turtle_currentFrame = 1;
                         isMoving = false;
                     }
                 }
                 else{
+                    //Log.e("ERR", "count: "+ turtle_currentFrame);
+
                     lastFrameChangeTime = time;
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
