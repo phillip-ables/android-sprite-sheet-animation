@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
         private int turtle_jumpSpeed = 40;
         private int turtle_sink = 35;
         private int turtle_fly = -35;
+        private int minTurtleY;
+        private int maxTurtleY;
 
         private int turtle_scaleFactor = 5;
         private int turtle_frameWidth = 300;
@@ -122,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_splashEffect;
         private int splash_x;
+        private boolean isSplash = false;
         private int splash_velocity = 1;
         private int splash_frameWidth = 160;
         private int splash_frameHeight = 90;
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_sparkEffect;
         private int spark_x;
+        private boolean isSpark = false;
         private int spark_velocity = 1;
         private int spark_frameWidth = 65;
         private int spark_frameHeight = 120;
@@ -300,7 +304,7 @@ public class MainActivity extends AppCompatActivity {
                 lastCanvasHeight = canvasHeight;
             }
 
-            int minTurtleY = bitmap_turtle.getHeight();
+            int minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
             int maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
             turtle_y += turtle_speed;
             // i think below is a better substitute for this
@@ -309,16 +313,15 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (turtle_y < minTurtleY) {
-                turtle_y = minTurtleY;
+                turtle_y = minTurtleY / 2;
                 turtle_speed = turtle_sink;
-                splashEffect(turtle_x, turtle_y);
+                isSplash = true;
             }
             if (turtle_y > maxTurtleY) {
                 turtle_y = maxTurtleY;
                 turtle_speed = turtle_fly;
-                skidEffect(turtle_x, turtle_y);
+                isSpark = true;
             }
-            Log.e("Speed",""+turtle_speed);
 
             //junk code for which resource to use
             if(isMoving) {
@@ -382,6 +385,36 @@ public class MainActivity extends AppCompatActivity {
                         turtle_x + turtle_frameWidth,
                         turtle_y + turtle_frameHeight
                 );
+                if(isSpark){
+                    bitmap_sparkEffect = Bitmap.createScaledBitmap(
+                            bitmap_sparkEffect,
+                            spark_frameWidth * spark_frameCount,
+                            spark_frameHeight,
+                            false
+                    );
+                    spark_whereToDraw.set(
+                            turtle_x,
+                            minTurtleY,
+                            turtle_x + spark_frameWidth,
+                            minTurtleY + spark_frameHeight
+
+
+                    );
+                }
+                if(isSplash){
+                    bitmap_splashEffect = Bitmap.createScaledBitmap(
+                            bitmap_splashEffect,
+                            splash_frameWidth * splash_frameCount,
+                            splash_frameHeight,
+                            false
+                    );
+                    spark_whereToDraw.set(
+                            turtle_x,
+                            maxTurtleY,
+                            turtle_x + splash_frameWidth,
+                            maxTurtleY + splash_frameHeight
+                    );
+                }
 
                 //WORM
                 bitmap_worm = Bitmap.createScaledBitmap(
@@ -430,22 +463,35 @@ public class MainActivity extends AppCompatActivity {
                 worm_currentFrame++;
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
-                    //Log.e("touch", "count: "+ turtle_currentFrame);
                     if (turtle_currentFrame >= turtle_upFrameCount){
-                        //isOneShot = false;
-                        //bitmap_turtle = BitmapFactory.decodeResource(this.getResources(), R.drawable.turtle_swim_350_235);
-                        //turtle_frameCount = turtle_idleFrameCount;
                         turtle_currentFrame = 1;
                         isMoving = false;
                     }
                 }
                 else{
-                    //Log.e("ERR", "count: "+ turtle_currentFrame);
-
                     lastFrameChangeTime = time;
                     if(turtle_currentFrame >= turtle_idleFrameCount)
                         turtle_currentFrame = 0;
                 }
+                if(isSpark) {
+                    spark_currentFrame++;
+                    if(spark_currentFrame >= spark_frameCount){
+                        isSpark = false;
+                        spark_currentFrame = 0;
+                    }
+                    spark_frameToDraw.left = spark_currentFrame * spark_frameWidth;
+                    spark_frameToDraw.right = spark_frameToDraw.left + spark_frameWidth;
+                }
+                if(isSplash) {
+                    splash_currentFrame++;
+                    if(splash_currentFrame >= splash_frameCount){
+                        isSplash = false;
+                        splash_frameCount = 0;
+                    }
+                    splash_frameToDraw.left = splash_currentFrame * splash_frameWidth;
+                    splash_frameToDraw.right = splash_frameToDraw.left + splash_frameWidth;
+                }
+
                 if(worm_currentFrame >= worm_frameCount)
                     worm_currentFrame = 0;
             }
@@ -501,14 +547,6 @@ public class MainActivity extends AppCompatActivity {
             }
             */
             return true;
-        }
-
-        public void splashEffect(int x, int y) {
-            Log.e("slash", "");
-        }
-
-        public void skidEffect(int x, int y) {
-            Log.e("slash", "");
         }
     }
     @Override
