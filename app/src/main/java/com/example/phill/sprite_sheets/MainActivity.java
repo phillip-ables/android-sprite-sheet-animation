@@ -291,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
 
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
                 turtle_frameHeight = canvasHeight / turtle_scaleFactor;
+                spark_frameHeight = spark_frameWidth = canvasHeight / spark_scale;
+                splash_frameHeight = splash_frameWidth = canvasHeight / splash_scale;
 
                 worm_frameWidth = canvasWidth / worm_scaleWidth;
                 worm_frameHeight = canvasHeight / worm_scaleHeight;
