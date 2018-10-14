@@ -122,12 +122,11 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_splashEffect;
         private int splash_x;
-        private int splash_velocity;
-        private int splash_frameWidth;
-        private int splash_frameHeight;
-        private int splash_scaleWidth;
-        private int splash_scaleHeight;
-        private int splash_frameCount;
+        private int splash_velocity = 1;
+        private int splash_frameWidth = 160;
+        private int splash_frameHeight = 90;
+        private int splash_scale = 13;
+        private int splash_frameCount = 9;
         private int splash_currentFrame;
         private Rect splash_frameToDraw = new Rect(
                 0,
@@ -145,12 +144,11 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap_sparkEffect;
         private int spark_x;
-        private int spark_velocity;
-        private int spark_frameWidth;
-        private int spark_frameHeight;
-        private int spark_scaleWidth;
-        private int spark_scaleHeight;
-        private int spark_frameCount;
+        private int spark_velocity = 1;
+        private int spark_frameWidth = 65;
+        private int spark_frameHeight = 120;
+        private int spark_scale = 13;
+        private int spark_frameCount = 9;
         private int spark_currentFrame;
         private Rect spark_frameToDraw = new Rect(
                 0,
@@ -210,6 +208,20 @@ public class MainActivity extends AppCompatActivity {
                     bitmap_turtle,
                     turtle_frameWidth,
                     turtle_frameHeight,
+                    false
+            );
+            bitmap_splashEffect = BitmapFactory.decodeResource(this.getResources(), R.drawable.splash_160_90);
+            bitmap_splashEffect = Bitmap.createScaledBitmap(
+                    bitmap_splashEffect,
+                    splash_frameWidth,
+                    splash_frameHeight,
+                    false
+            );
+            bitmap_sparkEffect = BitmapFactory.decodeResource(this.getResources(), R.drawable.sparks_65_120);
+            bitmap_sparkEffect = Bitmap.createScaledBitmap(
+                    bitmap_sparkEffect,
+                    spark_frameWidth,
+                    spark_frameHeight,
                     false
             );
 
