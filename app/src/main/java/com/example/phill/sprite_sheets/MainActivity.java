@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         private int worm_frameWidth = 200;
         private int worm_frameHeight = 93;
         private int worm_frameCount = 4;
-        private int worm_currentFrame;
+        private int worm_currentFrame = 0;
 
         private Rect worm_frameToDraw = new Rect(
                 0,
@@ -130,19 +130,19 @@ public class MainActivity extends AppCompatActivity {
         private int splash_frameHeight = 90;
         private int splash_scale = 13;
         private int splash_frameCount = 9;
-        private int splash_currentFrame;
+        private int splash_currentFrame = 0;
         private Rect splash_frameToDraw = new Rect(
                 0,
                 0,
-                worm_frameWidth,
-                worm_frameHeight
+                splash_frameWidth,
+                splash_frameHeight
         );
 
         RectF splash_whereToDraw = new RectF(
-                worm_x,
-                worm_y,
-                worm_x + worm_frameWidth,
-                worm_y + worm_frameHeight
+                turtle_x,
+                100,
+                turtle_x + splash_frameWidth,
+                100 + splash_frameHeight
         );
 
         Bitmap bitmap_sparkEffect;
@@ -162,9 +162,9 @@ public class MainActivity extends AppCompatActivity {
         );
 
         RectF spark_whereToDraw = new RectF(
-                spark_x,
+                turtle_x,
                 10,
-                spark_x + spark_frameWidth,
+                turtle_x + spark_frameWidth,
                 10 + spark_frameHeight
         );
 
@@ -304,8 +304,8 @@ public class MainActivity extends AppCompatActivity {
                 lastCanvasHeight = canvasHeight;
             }
 
-            int minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
-            int maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
+            minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
+            maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
             turtle_y += turtle_speed;
             // i think below is a better substitute for this
             //turtle_y += (turtle_speedPerSecond / fps);
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (turtle_y < minTurtleY) {
-                turtle_y = minTurtleY / 2;
+                turtle_y = minTurtleY;
                 turtle_speed = turtle_sink;
                 isSplash = true;
             }
@@ -386,6 +386,7 @@ public class MainActivity extends AppCompatActivity {
                         turtle_y + turtle_frameHeight
                 );
                 if(isSpark){
+                    Log.e("MaX", maxTurtleY+"");
                     bitmap_sparkEffect = Bitmap.createScaledBitmap(
                             bitmap_sparkEffect,
                             spark_frameWidth * spark_frameCount,
@@ -394,25 +395,24 @@ public class MainActivity extends AppCompatActivity {
                     );
                     spark_whereToDraw.set(
                             turtle_x,
-                            minTurtleY,
+                            maxTurtleY,
                             turtle_x + spark_frameWidth,
-                            minTurtleY + spark_frameHeight
-
-
+                            maxTurtleY + spark_frameHeight
                     );
                 }
                 if(isSplash){
+                    Log.e("Min", minTurtleY+"");
                     bitmap_splashEffect = Bitmap.createScaledBitmap(
                             bitmap_splashEffect,
                             splash_frameWidth * splash_frameCount,
                             splash_frameHeight,
                             false
                     );
-                    spark_whereToDraw.set(
+                    splash_whereToDraw.set(
                             turtle_x,
-                            maxTurtleY,
+                            minTurtleY,
                             turtle_x + splash_frameWidth,
-                            maxTurtleY + splash_frameHeight
+                            minTurtleY + splash_frameHeight
                     );
                 }
 
@@ -448,6 +448,21 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
+                if(isSpark){
+                    canvas.drawBitmap(
+                            bitmap_sparkEffect,
+                            spark_frameToDraw,
+                            spark_whereToDraw,
+                            paint
+                    );
+                }
+
+                if(isSplash){
+                    canvas.drawBitmap(bitmap_splashEffect,
+                            splash_frameToDraw,
+                            splash_whereToDraw,
+                            paint);
+                }
 
 
 
@@ -479,8 +494,6 @@ public class MainActivity extends AppCompatActivity {
                         isSpark = false;
                         spark_currentFrame = 0;
                     }
-                    spark_frameToDraw.left = spark_currentFrame * spark_frameWidth;
-                    spark_frameToDraw.right = spark_frameToDraw.left + spark_frameWidth;
                 }
                 if(isSplash) {
                     splash_currentFrame++;
@@ -497,6 +510,11 @@ public class MainActivity extends AppCompatActivity {
             }
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
+
+            if(isSpark){
+                spark_frameToDraw.left = spark_currentFrame * spark_frameWidth;
+                spark_frameToDraw.right = spark_frameToDraw.left + spark_frameWidth;
+            }
 
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
             worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
