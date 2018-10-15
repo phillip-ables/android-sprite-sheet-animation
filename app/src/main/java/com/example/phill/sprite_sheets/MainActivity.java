@@ -277,9 +277,6 @@ public class MainActivity extends AppCompatActivity {
                 if (timeThisFrame >= 1) {
                     fps = 1000 / timeThisFrame;
                 }
-
-                //if(!isOneShot)
-                //    isMoving = false;
             }
         }
 
@@ -312,8 +309,8 @@ public class MainActivity extends AppCompatActivity {
             turtle_speed += turtle_gravity;
 
 
-            if (turtle_y < minTurtleY) {
-                turtle_y = minTurtleY;
+            if (turtle_y < minTurtleY && turtle_speed < 0) {
+                turtle_y = 0;
                 turtle_speed = turtle_sink;
                 isSplash = true;
             }
@@ -386,7 +383,6 @@ public class MainActivity extends AppCompatActivity {
                         turtle_y + turtle_frameHeight
                 );
                 if(isSpark){
-                    Log.e("MaX", maxTurtleY+"");
                     bitmap_sparkEffect = Bitmap.createScaledBitmap(
                             bitmap_sparkEffect,
                             spark_frameWidth * spark_frameCount,
@@ -401,7 +397,15 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
                 if(isSplash){
-                    Log.e("Min", minTurtleY+"");
+
+                    //this is where the error is
+                    //its something to do with the width
+
+
+
+
+
+
                     bitmap_splashEffect = Bitmap.createScaledBitmap(
                             bitmap_splashEffect,
                             splash_frameWidth * splash_frameCount,
@@ -458,10 +462,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(isSplash){
-                    canvas.drawBitmap(bitmap_splashEffect,
+                    canvas.drawBitmap(
+                            bitmap_splashEffect,
                             splash_frameToDraw,
                             splash_whereToDraw,
                             paint);
+                    Log.e("Draw()","isSplash "+splash_currentFrame);
                 }
 
 
@@ -501,8 +507,6 @@ public class MainActivity extends AppCompatActivity {
                         isSplash = false;
                         splash_frameCount = 0;
                     }
-                    splash_frameToDraw.left = splash_currentFrame * splash_frameWidth;
-                    splash_frameToDraw.right = splash_frameToDraw.left + splash_frameWidth;
                 }
 
                 if(worm_currentFrame >= worm_frameCount)
@@ -514,6 +518,10 @@ public class MainActivity extends AppCompatActivity {
             if(isSpark){
                 spark_frameToDraw.left = spark_currentFrame * spark_frameWidth;
                 spark_frameToDraw.right = spark_frameToDraw.left + spark_frameWidth;
+            }
+            if(isSplash){
+                splash_frameToDraw.left = splash_currentFrame * splash_frameWidth;
+                splash_frameToDraw.right = splash_frameToDraw.left + splash_frameWidth;
             }
 
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
@@ -548,22 +556,6 @@ public class MainActivity extends AppCompatActivity {
                 isMoving = true;
                 turtle_speed -= turtle_jumpSpeed;
             }
-
-            /*
-            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-                case MotionEvent.ACTION_DOWN:
-                    isOneShot = true;
-                    isMoving = true;
-                    turtle_speed -= turtle_jumpSpeed;
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    if(!isOneShot) {
-                        isMoving = false;
-                    }
-                    break;
-            }
-            */
             return true;
         }
     }
