@@ -96,32 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 turtle_y + turtle_frameHeight
         );
 
-        Bitmap bitmap_worm;
-        private int worm_x = 200;
-        private int worm_y = 300;
-        private int worm_speed = 16;
-
-        private int worm_scaleWidth = 8;
-        private int worm_scaleHeight = 3 * worm_scaleWidth;
-        private int worm_frameWidth = 200;
-        private int worm_frameHeight = 93;
-        private int worm_frameCount = 4;
-        private int worm_currentFrame = 0;
-
-        private Rect worm_frameToDraw = new Rect(
-                0,
-                0,
-                worm_frameWidth,
-                worm_frameHeight
-        );
-
-        RectF worm_whereToDraw = new RectF(
-                worm_x,
-                worm_y,
-                worm_x + worm_frameWidth,
-                worm_y + worm_frameHeight
-        );
-
         Bitmap bitmap_splashEffect;
         private int splash_x;
         private boolean isSplash = false;
@@ -187,18 +161,61 @@ public class MainActivity extends AppCompatActivity {
         RectF drop_whereToDraw = new RectF(
                 drop_x,
                 turtle_y,
-                drop_x + drop_frameWidth,
-                worm_y + drop_frameHeight
+                turtle_x + drop_frameWidth,
+                turtle_x + drop_frameHeight
         );
 
-        //Bitmaps for hire
+        Bitmap bitmap_worm;
+        private int worm_x = 200;
+        private int worm_y = 300;
+        private int worm_speed = 16;
 
-        //Bitmap bitmapWorm;
-        //Bitmap bitmapTurtle;
-        Bitmap bitmapBackground;
-        Bitmap bitmapstraw;
-        float backgroundXPos = 0;
+        private int worm_scaleWidth = 8;
+        private int worm_scaleHeight = 3 * worm_scaleWidth;
+        private int worm_frameWidth = 200;
+        private int worm_frameHeight = 93;
+        private int worm_frameCount = 4;
+        private int worm_currentFrame = 0;
 
+        private Rect worm_frameToDraw = new Rect(
+                0,
+                0,
+                worm_frameWidth,
+                worm_frameHeight
+        );
+
+        RectF worm_whereToDraw = new RectF(
+                worm_x,
+                worm_y,
+                worm_x + worm_frameWidth,
+                worm_y + worm_frameHeight
+        );
+
+        Bitmap bitmap_straw;
+        private int straw_x = 200;
+        private int straw_y = 300;
+        private int straw_speed = 16;
+
+        private int straw_scaleWidth = 8;
+        private int straw_scaleHeight = 3 * worm_scaleWidth;
+        private int straw_frameWidth = 220;
+        private int straw_frameHeight = 40;
+        private int straw_frameCount = 4;
+        private int straw_currentFrame = 0;
+
+        private Rect straw_frameToDraw = new Rect(
+                0,
+                0,
+                straw_frameWidth,
+                straw_frameHeight
+        );
+
+        RectF straw_whereToDraw = new RectF(
+                straw_x,
+                straw_y,
+                straw_x + straw_frameWidth,
+                straw_y + straw_frameHeight
+        );
 
         //call new special constructor method runs
         public GameView(Context context) {
