@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         private int splash_velocity = 1;
         private int splash_frameWidth = 160;
         private int splash_frameHeight = 90;
-        private int splash_scale = 13;
+        private int splash_scale = 1;
         private int splash_frameCount = 9;
         private int splash_currentFrame = 0;
         private Rect splash_frameToDraw = new Rect(
@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
             turtle_frameWidth = canvasWidth / turtle_scaleFactor;
             worm_frameWidth = canvasWidth / worm_scaleWidth;
             worm_frameHeight = lastCanvasHeight/ worm_scaleHeight;
+            //idk if they all need these becasue spark didnt but splash is still wrong
 
             //DISPLAYS
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
@@ -290,6 +291,8 @@ public class MainActivity extends AppCompatActivity {
                 canvasWidth = displayMetrics.widthPixels;
                 canvasHeight = displayMetrics.heightPixels;
 
+
+                //these all need checks to make sure that it isnt the initial size and crash
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
                 turtle_frameHeight = canvasHeight / turtle_scaleFactor;
                 spark_frameHeight = spark_frameWidth = canvasHeight / spark_scale;
@@ -397,21 +400,13 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
                 if(isSplash){
-
-                    //this is where the error is
-                    //its something to do with the width
-
-
-
-
-
-
                     bitmap_splashEffect = Bitmap.createScaledBitmap(
                             bitmap_splashEffect,
                             splash_frameWidth * splash_frameCount,
                             splash_frameHeight,
                             false
                     );
+
                     splash_whereToDraw.set(
                             turtle_x,
                             minTurtleY,
@@ -467,7 +462,6 @@ public class MainActivity extends AppCompatActivity {
                             splash_frameToDraw,
                             splash_whereToDraw,
                             paint);
-                    Log.e("Draw()","isSplash "+splash_currentFrame);
                 }
 
 
@@ -505,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
                     splash_currentFrame++;
                     if(splash_currentFrame >= splash_frameCount){
                         isSplash = false;
-                        splash_frameCount = 0;
+                        splash_currentFrame = 0;  // omg a two day bug all becasue i typed frame count instead of current frame
                     }
                 }
 
