@@ -461,10 +461,21 @@ public class MainActivity extends AppCompatActivity {
                         worm_x + worm_frameWidth,
                         worm_y + worm_frameHeight
                 );
-                
 
-
-                //not sure why this is here
+                //STRAW
+                bitmap_straw = Bitmap.createScaledBitmap(
+                        bitmap_straw,
+                        straw_frameWidth * straw_frameCount,
+                        straw_frameHeight,
+                        false
+                );
+                straw_whereToDraw.set(
+                        straw_x,
+                        straw_y,
+                        straw_x + straw_frameWidth,
+                        straw_y + straw_frameHeight
+                );
+                //not sure why this is here, in this exact spot
                 getCurrentFrame();
 
                 canvas.drawBitmap(
