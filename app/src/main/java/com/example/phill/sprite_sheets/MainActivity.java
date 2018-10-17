@@ -367,6 +367,8 @@ public class MainActivity extends AppCompatActivity {
                 worm_y = (int) Math.floor(Math.random() * (maxTurtleY - minTurtleY) + minTurtleY);
             }
 
+
+            /*
             // STRAW LOGIC
             if(collisionChecker(straw_x, straw_y)){
                 straw_x -= 300;
@@ -375,11 +377,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "GameOver", Toast.LENGTH_SHORT).show();
                 }
             }
+            */
             straw_x -= straw_speed;
             if(straw_x < 0){
                 straw_x = canvasWidth + (bitmap_straw.getWidth() / 2);  // my make this a random number so that you cant time its return
                 straw_y = (int) Math.floor(Math.random() * ( maxTurtleY - minTurtleY) + minTurtleY);
             }
+
         }
 
         public void draw() {
@@ -462,6 +466,7 @@ public class MainActivity extends AppCompatActivity {
                         worm_y + worm_frameHeight
                 );
 
+                /*
                 //STRAW
                 bitmap_straw = Bitmap.createScaledBitmap(
                         bitmap_straw,
@@ -475,6 +480,7 @@ public class MainActivity extends AppCompatActivity {
                         straw_x + straw_frameWidth,
                         straw_y + straw_frameHeight
                 );
+                */
                 //not sure why this is here, in this exact spot
                 getCurrentFrame();
 
@@ -510,12 +516,14 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
+                /*
                 canvas.drawBitmap(
                         bitmap_straw,
                         straw_frameToDraw,
                         straw_whereToDraw,
                         paint
                 );
+                */
 
 
 
@@ -559,8 +567,10 @@ public class MainActivity extends AppCompatActivity {
                 if(worm_currentFrame >= worm_frameCount)
                     worm_currentFrame = 0;
 
+                /*
                 if(straw_currentFrame >= straw_frameCount)
                     straw_currentFrame = 0;
+                    */
             }
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
@@ -577,8 +587,11 @@ public class MainActivity extends AppCompatActivity {
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
             worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
 
+
+            /*
             straw_frameToDraw.left = straw_currentFrame * straw_frameWidth;
             straw_frameToDraw.right = straw_frameToDraw.left + straw_frameWidth;
+            */
         }
 
         public boolean collisionChecker(int x, int y){
