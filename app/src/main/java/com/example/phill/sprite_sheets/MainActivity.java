@@ -1,6 +1,7 @@
 package com.example.phill.sprite_sheets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -313,9 +314,15 @@ public class MainActivity extends AppCompatActivity {
                 worm_frameWidth = canvasWidth / worm_scaleWidth;
                 worm_frameHeight = canvasHeight / worm_scaleHeight;
 
+                straw_frameWidth = canvasWidth / straw_scaleWidth;
+                straw_frameHeight = canvasHeight / straw_scaleHeight;
+
                 lastCanvasHeight = canvasHeight;
             }
 
+
+            //THESE NEED UPDATED BECASUE THEY LOOK AWFUL ON A SLIM PHONE
+            //MAYBE CLAMP THEM TO SOME VALUE SO THAT THE SKY IS ALWAYS ATLEAST X RATIO OR AMOUNT OF PIXELS
             minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
             maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
             turtle_y += turtle_speed;
@@ -346,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
 
             //BACKGROUND
             background_x -= background_speed;
-            if(Math.abs(background_x) >= canvasWidth )
+            if(Math.abs(background_x) >= (canvasWidth/2) )  // i want my background to be double layered as a png
                 background_x = 0;
 
             //worm logic
@@ -358,6 +365,20 @@ public class MainActivity extends AppCompatActivity {
             if(worm_x < 0){
                 worm_x = canvasWidth + worm_frameWidth;
                 worm_y = (int) Math.floor(Math.random() * (maxTurtleY - minTurtleY) + minTurtleY);
+            }
+
+            // STRAW LOGIC
+            if(collisionChecker(straw_x, straw_y)){
+                straw_x -= 300;
+                lifeCounterOfTurtle--;
+                if(lifeCounterOfTurtle == 0){
+                    Toast.makeText(MainActivity.this, "GameOver", Toast.LENGTH_SHORT).show();
+                }
+            }
+            straw_x -= straw_speed;
+            if(straw_x < 0){
+                straw_x = canvasWidth + (bitmap_straw.getWidth() / 2);  // my make this a random number so that you cant time its return
+                straw_y = (int) Math.floor(Math.random() * ( maxTurtleY - minTurtleY) + minTurtleY);
             }
         }
 
@@ -440,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
                         worm_x + worm_frameWidth,
                         worm_y + worm_frameHeight
                 );
+                
 
 
                 //not sure why this is here
