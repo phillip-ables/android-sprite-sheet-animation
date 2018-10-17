@@ -485,13 +485,6 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
-                canvas.drawBitmap(
-                        bitmap_worm,
-                        worm_frameToDraw,
-                        worm_whereToDraw,
-                        paint
-                );
-
                 if(isSpark){
                     canvas.drawBitmap(
                             bitmap_sparkEffect,
@@ -508,6 +501,21 @@ public class MainActivity extends AppCompatActivity {
                             splash_whereToDraw,
                             paint);
                 }
+
+
+                canvas.drawBitmap(
+                        bitmap_worm,
+                        worm_frameToDraw,
+                        worm_whereToDraw,
+                        paint
+                );
+
+                canvas.drawBitmap(
+                        bitmap_straw,
+                        straw_frameToDraw,
+                        straw_whereToDraw,
+                        paint
+                );
 
 
 
@@ -550,6 +558,9 @@ public class MainActivity extends AppCompatActivity {
 
                 if(worm_currentFrame >= worm_frameCount)
                     worm_currentFrame = 0;
+
+                if(straw_currentFrame >= straw_frameCount)
+                    straw_currentFrame = 0;
             }
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
@@ -565,6 +576,9 @@ public class MainActivity extends AppCompatActivity {
 
             worm_frameToDraw.left = worm_currentFrame * worm_frameWidth;
             worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
+
+            straw_frameToDraw.left = straw_currentFrame * straw_frameWidth;
+            straw_frameToDraw.right = straw_frameToDraw.left + straw_frameWidth;
         }
 
         public boolean collisionChecker(int x, int y){
