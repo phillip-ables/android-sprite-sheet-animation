@@ -261,11 +261,6 @@ public class MainActivity extends AppCompatActivity {
             lastCanvasHeight = displayMetrics.heightPixels;
             canvasWidth = displayMetrics.widthPixels;
 
-            turtle_frameWidth = canvasWidth / turtle_scaleFactor;
-            worm_frameWidth = canvasWidth / worm_scaleWidth;
-            worm_frameHeight = lastCanvasHeight/ worm_scaleHeight;
-            //idk if they all need these becasue spark didnt but splash is still wrong
-
             //DISPLAYS
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             background_x = 0;
