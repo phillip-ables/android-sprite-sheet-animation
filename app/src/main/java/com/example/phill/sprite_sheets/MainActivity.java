@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         private int background_x, background_speed = 7;
 
         Bitmap bitmap_turtle;
-        Bitmap bitmap_turtleEffect;
         private int turtle_x = 5;
         private int turtle_y;
         private int turtle_speed = 4;
@@ -198,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         private int straw_speed = 16;
 
         private int straw_scaleWidth = 8;
-        private int straw_scaleHeight = 3 * worm_scaleWidth;
+        private int straw_scaleHeight = 5 * worm_scaleWidth;
         private int straw_frameWidth = 220;
         private int straw_frameHeight = 40;
         private int straw_frameCount = 4;
@@ -253,6 +252,15 @@ public class MainActivity extends AppCompatActivity {
                     bitmap_worm,
                     worm_frameWidth,
                     worm_frameHeight,
+                    false
+            );
+
+            //straw
+            bitmap_straw = BitmapFactory.decodeResource(this.getResources(), R.drawable.straw_220_40);
+            bitmap_straw = Bitmap.createScaledBitmap(
+                    bitmap_straw,
+                    straw_frameWidth,
+                    straw_frameHeight,
                     false
             );
 
@@ -368,21 +376,25 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            /*
+            ///*
             // STRAW LOGIC
             if(collisionChecker(straw_x, straw_y)){
                 straw_x -= 300;
                 lifeCounterOfTurtle--;
                 if(lifeCounterOfTurtle == 0){
                     Toast.makeText(MainActivity.this, "GameOver", Toast.LENGTH_SHORT).show();
+                    Log.e("FIN","game over");
                 }
             }
-            */
+            //*/
+           // /*
+
             straw_x -= straw_speed;
             if(straw_x < 0){
-                straw_x = canvasWidth + (bitmap_straw.getWidth() / 2);  // my make this a random number so that you cant time its return
+                straw_x = canvasWidth + straw_frameWidth;
                 straw_y = (int) Math.floor(Math.random() * ( maxTurtleY - minTurtleY) + minTurtleY);
             }
+            //*/
 
         }
 
@@ -466,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
                         worm_y + worm_frameHeight
                 );
 
-                /*
+                ///*
                 //STRAW
                 bitmap_straw = Bitmap.createScaledBitmap(
                         bitmap_straw,
@@ -480,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
                         straw_x + straw_frameWidth,
                         straw_y + straw_frameHeight
                 );
-                */
+                //*/
                 //not sure why this is here, in this exact spot
                 getCurrentFrame();
 
@@ -516,14 +528,14 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
-                /*
+                ///*
                 canvas.drawBitmap(
                         bitmap_straw,
                         straw_frameToDraw,
                         straw_whereToDraw,
                         paint
                 );
-                */
+                //*/
 
 
 
@@ -537,6 +549,7 @@ public class MainActivity extends AppCompatActivity {
             if (time > lastFrameChangeTime + frameLengthInMilliseconds) {  // this logic orig came after is moving logic
                 turtle_currentFrame++;
                 worm_currentFrame++;
+                straw_currentFrame++;
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
                     if (turtle_currentFrame >= turtle_upFrameCount){
@@ -567,10 +580,9 @@ public class MainActivity extends AppCompatActivity {
                 if(worm_currentFrame >= worm_frameCount)
                     worm_currentFrame = 0;
 
-                /*
                 if(straw_currentFrame >= straw_frameCount)
                     straw_currentFrame = 0;
-                    */
+
             }
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
@@ -588,16 +600,16 @@ public class MainActivity extends AppCompatActivity {
             worm_frameToDraw.right = worm_frameToDraw.left + worm_frameWidth;
 
 
-            /*
             straw_frameToDraw.left = straw_currentFrame * straw_frameWidth;
             straw_frameToDraw.right = straw_frameToDraw.left + straw_frameWidth;
-            */
         }
 
         public boolean collisionChecker(int x, int y){
-            if(turtle_x < x && x < (turtle_x + bitmap_turtle.getWidth()) &&
-                    turtle_y < y && y < (turtle_y + turtle_frameWidth))
+            if(turtle_x < x && x < (turtle_x + turtle_frameWidth) &&
+                    turtle_y < y && y < (turtle_y + turtle_frameWidth)) {
+                Log.e("Hit", "ture");
                 return true;
+            }
             return false;
         }
 
