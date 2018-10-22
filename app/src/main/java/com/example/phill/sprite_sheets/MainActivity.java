@@ -1,7 +1,6 @@
 package com.example.phill.sprite_sheets;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,7 +16,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         private Bitmap bitmap_sky;
         private int sky_scaleHeight = 10;
-        private int sky_frameWidth = 150;
+        private int sky_frameWidth = 188;
         private int sky_frameHeight = 90;
         private int sky_frameCount = 12;
         private int sky_currentFrame = 0;
@@ -258,12 +256,6 @@ public class MainActivity extends AppCompatActivity {
                     false
             );
             bitmap_sparkEffect = BitmapFactory.decodeResource(this.getResources(), R.drawable.sparks_65_120);
-            bitmap_sparkEffect = Bitmap.createScaledBitmap(
-                    bitmap_sparkEffect,
-                    spark_frameWidth,
-                    spark_frameHeight,
-                    false
-            );
 
             //worm
             bitmap_worm = BitmapFactory.decodeResource(this.getResources(), R.drawable.worm_200_93);
@@ -290,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             canvasWidth = displayMetrics.widthPixels;
 
             //DISPLAYS
-            bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_150_90);
+            bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_188_90);
 
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             background_x = 0;
@@ -355,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
 
             //THESE NEED UPDATED BECASUE THEY LOOK AWFUL ON A SLIM PHONE
             //MAYBE CLAMP THEM TO SOME VALUE SO THAT THE SKY IS ALWAYS ATLEAST X RATIO OR AMOUNT OF PIXELS
+            //i cant stand get height () functions!!!
+
             minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
             maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
             turtle_y += turtle_speed;
@@ -450,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
                         sky_frameHeight,
                         false
                 );
-                sky_whereToDraw.set(0, 0, sky_frameWidth, sky_frameHeight);
+                sky_whereToDraw.set(turtle_x, 0, sky_frameWidth, sky_frameHeight);
 
                 //this will be placed in a final draw function
                 bitmap_turtle = Bitmap.createScaledBitmap(
