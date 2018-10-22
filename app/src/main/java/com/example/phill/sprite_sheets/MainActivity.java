@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         boolean isMoving = false;
         //boolean isOneShot = false;
 
-        private int canvasWidth, canvasHeight, lastCanvasHeight;
+        private int canvasWidth, canvasHeight = 1, lastCanvasHeight;
         private int score, lifeCounterOfTurtle;
         private Paint scorePaint = new Paint();
         private Bitmap life[] = new Bitmap[2];
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         private int sky_scaleHeight = 10;
         private int sky_frameWidth = 188;
         private int sky_frameHeight = 90;
-        private int sky_frameCount = 12;
+        private int sky_frameCount = 13;
         private int sky_currentFrame = 0;
 
         private Rect sky_frameToDraw = new Rect(
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         private int straw_scaleHeight = 5 * worm_scaleWidth;
         private int straw_frameWidth = 220;
         private int straw_frameHeight = 40;
-        private int straw_frameCount = 4;
+        private int straw_frameCount = 3;
         private int straw_currentFrame = 0;
 
         private Rect straw_frameToDraw = new Rect(
@@ -278,8 +278,23 @@ public class MainActivity extends AppCompatActivity {
 
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            lastCanvasHeight = displayMetrics.heightPixels;
+            lastCanvasHeight = canvasHeight = displayMetrics.heightPixels;
             canvasWidth = displayMetrics.widthPixels;
+            sky_frameWidth = canvasWidth;
+            sky_frameHeight = canvasHeight / sky_scaleHeight;
+
+
+            //these all need checks to make sure that it isnt the initial size and crash
+            //turtle_frameWidth = canvasWidth / turtle_scaleFactor;
+           // turtle_frameHeight = canvasHeight / turtle_scaleFactor;
+            spark_frameHeight = spark_frameWidth = canvasHeight / spark_scale;
+            splash_frameHeight = splash_frameWidth = canvasHeight / splash_scale;
+
+            worm_frameWidth = canvasWidth / worm_scaleWidth;
+            worm_frameHeight = canvasHeight / worm_scaleHeight;
+
+            straw_frameWidth = canvasWidth / straw_scaleWidth;
+            straw_frameHeight = canvasHeight / straw_scaleHeight;
 
             //DISPLAYS
             bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_188_90);
@@ -320,6 +335,9 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
 
+            Log.e("measure", "frameWidth: "+sky_frameWidth);
+            Log.e("measure", "frameWidth: "+worm_frameWidth);
+            Log.e("measure", "canvasWidth: "+canvasWidth);
             if(lastCanvasHeight != canvasHeight){
                 Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
