@@ -333,6 +333,9 @@ public class MainActivity extends AppCompatActivity {
                 canvasWidth = displayMetrics.widthPixels;
                 canvasHeight = displayMetrics.heightPixels;
 
+                sky_frameWidth = canvasWidth;
+                sky_frameHeight = canvasHeight / sky_scaleHeight;
+
 
                 //these all need checks to make sure that it isnt the initial size and crash
                 turtle_frameWidth = canvasWidth / turtle_scaleFactor;
@@ -525,6 +528,12 @@ public class MainActivity extends AppCompatActivity {
                 //*/
                 //not sure why this is here, in this exact spot
                 getCurrentFrame();
+                canvas.drawBitmap(
+                        bitmap_sky,
+                        sky_frameToDraw,
+                        sky_whereToDraw,
+                        paint
+                );
 
                 canvas.drawBitmap(
                         bitmap_turtle,
@@ -580,6 +589,12 @@ public class MainActivity extends AppCompatActivity {
                 turtle_currentFrame++;
                 worm_currentFrame++;
                 straw_currentFrame++;
+                sky_currentFrame++;
+
+                if(sky_currentFrame >= sky_frameCount){
+                    sky_currentFrame = 0;
+                }
+
                 if(isMoving) {  // animate for if is moving
                     lastFrameChangeTime = time;  // this maybe should be in the main function and not ever inner peice
                     if (turtle_currentFrame >= turtle_upFrameCount){
@@ -614,6 +629,10 @@ public class MainActivity extends AppCompatActivity {
                     straw_currentFrame = 0;
 
             }
+
+            sky_frameToDraw.left = sky_currentFrame * sky_frameWidth;
+            sky_frameToDraw.right = sky_frameToDraw.left + sky_frameWidth;
+
             turtle_frameToDraw.left = turtle_currentFrame * turtle_frameWidth;
             turtle_frameToDraw.right = turtle_frameToDraw.left + turtle_frameWidth;
 
