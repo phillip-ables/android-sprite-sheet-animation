@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
 
             //DISPLAYS
             bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_150_90);
-                        
+
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             background_x = 0;
 
@@ -441,6 +441,13 @@ public class MainActivity extends AppCompatActivity {
                     else
                         canvas.drawBitmap(life[1], x, y, null);
                 }
+                bitmap_sky = Bitmap.createScaledBitmap(
+                        bitmap_sky,
+                        sky_frameWidth * sky_frameCount,
+                        sky_frameHeight,
+                        false
+                );
+                sky_whereToDraw.set(0, 0, sky_frameWidth, sky_frameHeight);
 
                 //this will be placed in a final draw function
                 bitmap_turtle = Bitmap.createScaledBitmap(
@@ -513,6 +520,8 @@ public class MainActivity extends AppCompatActivity {
                         straw_x + straw_frameWidth,
                         straw_y + straw_frameHeight
                 );
+
+
                 //*/
                 //not sure why this is here, in this exact spot
                 getCurrentFrame();
