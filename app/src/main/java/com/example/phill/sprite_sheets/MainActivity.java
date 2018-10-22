@@ -61,7 +61,28 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap_background;
         private int background_x, background_speed = 7;
 
-        Bitmap bitmap_turtle;
+        private Bitmap bitmap_sky;
+        private int sky_scaleHeight = 10;
+        private int sky_frameWidth = 150;
+        private int sky_frameHeight = 90;
+        private int sky_frameCount = 12;
+        private int sky_currentFrame = 0;
+
+        private Rect sky_frameToDraw = new Rect(
+                0,
+                0,
+                sky_frameWidth,
+                sky_frameHeight
+        );
+
+        RectF sky_whereToDraw = new RectF(
+                0,
+                0,
+                sky_frameWidth,
+                sky_frameHeight
+        );
+
+        private Bitmap bitmap_turtle;
         private int turtle_x = 5;
         private int turtle_y;
         private int turtle_speed = 4;
@@ -96,8 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 turtle_y + turtle_frameHeight
         );
 
-        Bitmap bitmap_splashEffect;
-        private int splash_x;
+        private Bitmap bitmap_splashEffect;
         private boolean isSplash = false;
         private int splash_velocity = 1;
         private int splash_frameWidth = 160;
@@ -119,8 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 100 + splash_frameHeight
         );
 
-        Bitmap bitmap_sparkEffect;
-        private int spark_x;
+        private Bitmap bitmap_sparkEffect;
         private boolean isSpark = false;
         private int spark_velocity = 1;
         private int spark_frameWidth = 65;
@@ -271,6 +290,8 @@ public class MainActivity extends AppCompatActivity {
             canvasWidth = displayMetrics.widthPixels;
 
             //DISPLAYS
+            bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_150_90);
+                        
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
             background_x = 0;
 
