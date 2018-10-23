@@ -84,11 +84,13 @@ public class MainActivity extends AppCompatActivity {
         private Bitmap bitmap_water;
         private int background_spawn;
         private int background_x;
+        private int background_width = 300;
         private int background_speed = 3;
         // might give the sand a faster speed to create a parallax effect
         private Bitmap bitmap_reef;
         private int reef_spawn;
         private int reef_x;
+        private int reef_width = 121;
         private int reef_speed = 4;
 
         private Bitmap bitmap_turtle;
@@ -319,6 +321,8 @@ public class MainActivity extends AppCompatActivity {
 
             //DISPLAYS
             bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_188_90);
+            bitmap_water = BitmapFactory.decodeResource(getResources(), R.drawable.water_300_108);
+            bitmap_reef = BitmapFactory.decodeResource(getResources(), R.drawable.sand_121_109);
 
             /*
             //trading this for the sky water reef resources
@@ -424,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
             //im really iffy of this
             background_x -= background_speed;
             reef_x -= reef_speed;
-            if(Math.abs(background_x) >= (water_width - canvasWidth) )  // i want my background to be double layered as a png
+            if(Math.abs(background_x) >= (background_width - canvasWidth) )  // i want my background to be double layered as a png
                 background_x = canvasWidth;
             if(Math.abs(reef_x) >= (reef_width - canvasWidth) )  // i want my background to be double layered as a png
                 reef_spawn = canvasWidth;
@@ -565,7 +569,7 @@ public class MainActivity extends AppCompatActivity {
                 );
 
                 canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
-                canvas.drawBitmap(bitmap_reef, background_x, 0, null);
+                canvas.drawBitmap(bitmap_reef, reef_x, maxTurtleY, null);
                 //canvas.drawBitmap(bitmap_reef, reef_x, 0, null);
 
                 canvas.drawBitmap(
