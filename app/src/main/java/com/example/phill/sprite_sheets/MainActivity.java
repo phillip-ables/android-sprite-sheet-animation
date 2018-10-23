@@ -324,6 +324,24 @@ public class MainActivity extends AppCompatActivity {
             bitmap_water = BitmapFactory.decodeResource(getResources(), R.drawable.water_300_108);
             bitmap_reef = BitmapFactory.decodeResource(getResources(), R.drawable.sand_121_109);
 
+
+            /*
+            //this alone causes it to stop working
+            bitmap_water = Bitmap.createScaledBitmap(
+                    bitmap_water,
+                    canvasWidth,
+                    maxTurtleY - minTurtleY,
+                    false
+            );
+            */
+
+            //what if i try it with hard values just to see if i can scale it
+
+
+
+
+
+
             /*
             //trading this for the sky water reef resources
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
@@ -471,19 +489,30 @@ public class MainActivity extends AppCompatActivity {
             //valid or we crash
             if(ourHolder.getSurface().isValid()) {
                 canvas = ourHolder.lockCanvas();
+                //this is the blue background
                 canvas.drawColor(Color.argb(255, 26, 128, 182));
                 paint.setColor(Color.argb(255, 249, 129, 0));
                 paint.setTextSize(45);
 
                 //canvas.drawBitmap(bitmap_background, background_x, 0, null);
 
+                //this is fixed
                 bitmap_sky = Bitmap.createScaledBitmap(
                         bitmap_sky,
                         sky_frameWidth * sky_frameCount,
-                        minTurtleY,
+                        sky_frameHeight,
                         false
                 );
-                sky_whereToDraw.set(turtle_x, 0, turtle_x + sky_frameWidth, sky_frameHeight);
+                //lets try minturty instead of frameheight
+                //sky_whereToDraw.set(turtle_x, 0, turtle_x + sky_frameWidth, sky_frameHeight);
+                //this one has overlap
+                //sky_whereToDraw.set(0,0,canvasWidth,sky_frameHeight + minTurtleY);
+                //i dont like this hard coded value
+                sky_whereToDraw.set(0,0,canvasWidth, minTurtleY + 50);
+
+                //lets see if that fixed it before trying the same for the other background peices
+
+
 
                 //this will be placed in a final draw function
                 bitmap_turtle = Bitmap.createScaledBitmap(
@@ -568,8 +597,13 @@ public class MainActivity extends AppCompatActivity {
                         paint
                 );
 
-                canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
-                canvas.drawBitmap(bitmap_reef, reef_x, maxTurtleY, null);
+                //lets just try to get it the right size then we will move it
+
+                canvas.drawBitmap(bitmap_water, 0, minTurtleY, null);
+                //canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
+
+                canvas.drawBitmap(bitmap_reef, 0, maxTurtleY, null);
+                //canvas.drawBitmap(bitmap_reef, reef_x, maxTurtleY, null);
                 //canvas.drawBitmap(bitmap_reef, reef_x, 0, null);
 
                 canvas.drawBitmap(
