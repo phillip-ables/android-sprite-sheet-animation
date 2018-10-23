@@ -288,8 +288,14 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             lastCanvasHeight = displayMetrics.heightPixels;
             canvasWidth = displayMetrics.widthPixels;
+
+           // /*
+            //i want to put this as just these variables and not stored in sky_variables
+
             sky_frameWidth = canvasWidth;
-            sky_frameHeight = minTurtleY;
+            //when i set this to minturtley then it doesnt draw
+            //sky_frameHeight = minTurtleY;
+             //*/
 
             /*
             sky_frameHeight = canvasHeight / sky_scaleHeight;
@@ -463,18 +469,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //canvas.drawBitmap(bitmap_background, background_x, 0, null);
 
-                canvas.drawText("Score : "+ score, 20, 60, scorePaint);
-
-                //HEARTS
-                for(int i = 0; i < 3; i++){
-                    int x = (canvasWidth - 100 - (100 * i));
-                    int y = 10;
-
-                    if( i < lifeCounterOfTurtle)
-                        canvas.drawBitmap(life[0], x, y, null);
-                    else
-                        canvas.drawBitmap(life[1], x, y, null);
-                }
                 bitmap_sky = Bitmap.createScaledBitmap(
                         bitmap_sky,
                         sky_frameWidth * sky_frameCount,
@@ -607,7 +601,18 @@ public class MainActivity extends AppCompatActivity {
                 );
                 //*/
 
+                canvas.drawText("Score : "+ score, 20, 60, scorePaint);
 
+                //HEARTS
+                for(int i = 0; i < 3; i++){
+                    int x = (canvasWidth - 100 - (100 * i));
+                    int y = 10;
+
+                    if( i < lifeCounterOfTurtle)
+                        canvas.drawBitmap(life[0], x, y, null);
+                    else
+                        canvas.drawBitmap(life[1], x, y, null);
+                }
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
