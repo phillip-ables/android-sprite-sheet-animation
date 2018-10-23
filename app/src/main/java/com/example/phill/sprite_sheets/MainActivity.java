@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         private int background_speed = 3;
         // might give the sand a faster speed to create a parallax effect
         private Bitmap bitmap_reef;
+        private int reef_spawn;
+        private int reef_x;
+        private int reef_speed = 4;
 
         private Bitmap bitmap_turtle;
         private int turtle_x = 5;
@@ -418,12 +421,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //BACKGROUND
-            /*
-            //this will come back as sand and water
-            //background_x -= background_speed;
-            if(Math.abs(background_x) >= (canvasWidth/2) )  // i want my background to be double layered as a png
-                background_x = 0;
-            */
+            //im really iffy of this
+            background_x -= background_speed;
+            reef_x -= reef_speed;
+            if(Math.abs(background_x) >= (water_width - canvasWidth) )  // i want my background to be double layered as a png
+                background_x = canvasWidth;
+            if(Math.abs(reef_x) >= (reef_width - canvasWidth) )  // i want my background to be double layered as a png
+                reef_spawn = canvasWidth;
 
             //worm logic
             if(collisionChecker(worm_x, worm_y)){
@@ -559,6 +563,10 @@ public class MainActivity extends AppCompatActivity {
                         sky_whereToDraw,
                         paint
                 );
+
+                canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
+                canvas.drawBitmap(bitmap_reef, background_x, 0, null);
+                //canvas.drawBitmap(bitmap_reef, reef_x, 0, null);
 
                 canvas.drawBitmap(
                         bitmap_turtle,
