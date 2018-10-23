@@ -56,11 +56,12 @@ public class MainActivity extends AppCompatActivity {
         private Paint scorePaint = new Paint();
         private Bitmap life[] = new Bitmap[2];
 
-        Bitmap bitmap_background;
-        private int background_x, background_speed = 7;
+        //Bitmap bitmap_background;
+        //private int background_x, background_speed = 7;
 
         private Bitmap bitmap_sky;
-        private int sky_scaleHeight = 10;
+        //this doesnt need to exist because its as tall as the min y
+        //private int sky_scaleHeight = 10;
         private int sky_frameWidth = 188;
         private int sky_frameHeight = 90;
         private int sky_frameCount = 13;
@@ -79,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 sky_frameWidth,
                 sky_frameHeight
         );
+
+        private Bitmap bitmap_water;
+        private int background_spawn;
+        private int background_x;
+        private int background_speed = 3;
+        // might give the sand a faster speed to create a parallax effect
+        private Bitmap bitmap_reef;
 
         private Bitmap bitmap_turtle;
         private int turtle_x = 5;
@@ -278,9 +286,12 @@ public class MainActivity extends AppCompatActivity {
 
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            lastCanvasHeight = canvasHeight = displayMetrics.heightPixels;
+            lastCanvasHeight = displayMetrics.heightPixels;
             canvasWidth = displayMetrics.widthPixels;
             sky_frameWidth = canvasWidth;
+            sky_frameHeight = minTurtleY;
+
+            /*
             sky_frameHeight = canvasHeight / sky_scaleHeight;
 
 
@@ -295,12 +306,17 @@ public class MainActivity extends AppCompatActivity {
 
             straw_frameWidth = canvasWidth / straw_scaleWidth;
             straw_frameHeight = canvasHeight / straw_scaleHeight;
+            */
 
             //DISPLAYS
             bitmap_sky = BitmapFactory.decodeResource(getResources(), R.drawable.sky_188_90);
 
+            /*
+            //trading this for the sky water reef resources
             bitmap_background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+            their will need to be an x speed for water and sand
             background_x = 0;
+            */
 
             scorePaint.setColor(Color.WHITE);
             scorePaint.setTextSize(70);
@@ -335,16 +351,13 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
 
-            Log.e("measure", "frameWidth: "+sky_frameWidth);
-            Log.e("measure", "frameWidth: "+worm_frameWidth);
-            Log.e("measure", "canvasWidth: "+canvasWidth);
             if(lastCanvasHeight != canvasHeight){
                 Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
                 canvasHeight = displayMetrics.heightPixels;
 
                 sky_frameWidth = canvasWidth;
-                sky_frameHeight = canvasHeight / sky_scaleHeight;
+                sky_frameHeight = minTurtleY;
 
 
                 //these all need checks to make sure that it isnt the initial size and crash
@@ -367,8 +380,11 @@ public class MainActivity extends AppCompatActivity {
             //MAYBE CLAMP THEM TO SOME VALUE SO THAT THE SKY IS ALWAYS ATLEAST X RATIO OR AMOUNT OF PIXELS
             //i cant stand get height () functions!!!
 
-            minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
-            maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
+            //minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
+            //lets try this instead
+            minTurtleY = turtle_frameHeight;
+            //maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
+            maxTurtleY = canvasHeight - (2 * turtle_frameHeight);
             turtle_y += turtle_speed;
             // i think below is a better substitute for this
             //turtle_y += (turtle_speedPerSecond / fps);
@@ -396,9 +412,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //BACKGROUND
-            background_x -= background_speed;
+            /*
+            //this will come back as sand and water
+            //background_x -= background_speed;
             if(Math.abs(background_x) >= (canvasWidth/2) )  // i want my background to be double layered as a png
                 background_x = 0;
+            */
 
             //worm logic
             if(collisionChecker(worm_x, worm_y)){
@@ -442,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
                 paint.setColor(Color.argb(255, 249, 129, 0));
                 paint.setTextSize(45);
 
-                canvas.drawBitmap(bitmap_background, background_x, 0, null);
+                //canvas.drawBitmap(bitmap_background, background_x, 0, null);
 
                 canvas.drawText("Score : "+ score, 20, 60, scorePaint);
 
@@ -459,10 +478,10 @@ public class MainActivity extends AppCompatActivity {
                 bitmap_sky = Bitmap.createScaledBitmap(
                         bitmap_sky,
                         sky_frameWidth * sky_frameCount,
-                        sky_frameHeight,
+                        minTurtleY,
                         false
                 );
-                sky_whereToDraw.set(turtle_x, 0, sky_frameWidth, sky_frameHeight);
+                sky_whereToDraw.set(turtle_x, 0, turtle_x + sky_frameWidth, sky_frameHeight);
 
                 //this will be placed in a final draw function
                 bitmap_turtle = Bitmap.createScaledBitmap(
