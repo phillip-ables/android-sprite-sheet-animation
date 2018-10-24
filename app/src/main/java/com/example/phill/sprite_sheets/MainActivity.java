@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         private long lastFrameChangeTime;
 
         private int frameLengthInMilliseconds = 150;
+        private int padding_scale = 20;  // idc if this is redundent of not it works!!
+        private int padding;  // was used when it was redundent to make it not so
 
         boolean isMoving = false;
         //boolean isOneShot = false;
@@ -293,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             lastCanvasHeight = displayMetrics.heightPixels;
             canvasWidth = displayMetrics.widthPixels;
+            padding_scale = lastCanvasHeight / padding_scale;
 
            // /*
             //i want to put this as just these variables and not stored in sky_variables
@@ -382,6 +385,7 @@ public class MainActivity extends AppCompatActivity {
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             canvasHeight = displayMetrics.heightPixels;
 
+            //all this is irrelavent
             if(lastCanvasHeight != canvasHeight){
                 Log.e("CHANGE", "reset frameWidth");
                 canvasWidth = displayMetrics.widthPixels;
@@ -413,9 +417,9 @@ public class MainActivity extends AppCompatActivity {
 
             //minTurtleY = bitmap_turtle.getHeight(); // i think i want this to be half of what it is
             //lets try this instead
-            minTurtleY = turtle_frameHeight;
+            minTurtleY = turtle_frameHeight * 2;
             //maxTurtleY = canvasHeight - (2 * bitmap_turtle.getHeight());
-            maxTurtleY = canvasHeight - (2 * turtle_frameHeight);
+            maxTurtleY = canvasHeight - (4 * turtle_frameHeight);
             turtle_y += turtle_speed;
             // i think below is a better substitute for this
             //turtle_y += (turtle_speedPerSecond / fps);
@@ -499,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                 //this is fixed
                 bitmap_sky = Bitmap.createScaledBitmap(
                         bitmap_sky,
-                        sky_frameWidth * sky_frameCount,
+                        sky_frameWidth * sky_frameCount ,
                         sky_frameHeight,
                         false
                 );
@@ -508,9 +512,33 @@ public class MainActivity extends AppCompatActivity {
                 //this one has overlap
                 //sky_whereToDraw.set(0,0,canvasWidth,sky_frameHeight + minTurtleY);
                 //i dont like this hard coded value
-                sky_whereToDraw.set(0,0,canvasWidth, minTurtleY + 50);
+                sky_whereToDraw.set(
+                        0,0,canvasWidth, minTurtleY + padding_scale
+                );
+                Log.e("PADDING ",padding_scale+"");
 
                 //lets see if that fixed it before trying the same for the other background peices
+                //i dont understand how this is going to work
+                //the desired witdth is just the canvas width and the hieght is blahhh
+
+                //lets just try to stretch it to canvas width
+                bitmap_water = Bitmap.createScaledBitmap(
+                        bitmap_water,
+                        canvasWidth * 2,
+                        maxTurtleY - minTurtleY + padding_scale,  // all the other background is in the where to draw padding because i need them to take up more space i just need this one to be longer
+                        false
+                );
+                //logically i dont see why this wouldnt work
+                //the frame count is one so canvas width times one
+                //disered height is the max minus the min or the middle ground sooooo
+
+
+                bitmap_reef = Bitmap.createScaledBitmap(
+                        bitmap_reef,
+                        canvasWidth * 2,
+                        canvasHeight - maxTurtleY + padding_scale,  // we need a plus padding variable for all the hard coded values
+                        false
+                );
 
 
 
@@ -602,7 +630,7 @@ public class MainActivity extends AppCompatActivity {
                 canvas.drawBitmap(bitmap_water, 0, minTurtleY, null);
                 //canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
 
-                canvas.drawBitmap(bitmap_reef, 0, maxTurtleY, null);
+                canvas.drawBitmap(bitmap_reef, 0, maxTurtleY - padding_scale, null);
                 //canvas.drawBitmap(bitmap_reef, reef_x, maxTurtleY, null);
                 //canvas.drawBitmap(bitmap_reef, reef_x, 0, null);
 
