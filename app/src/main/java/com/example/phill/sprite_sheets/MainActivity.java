@@ -450,10 +450,10 @@ public class MainActivity extends AppCompatActivity {
             //im really iffy of this
             background_x -= background_speed;
             reef_x -= reef_speed;
-            if(Math.abs(background_x) >= (background_width - canvasWidth) )  // i want my background to be double layered as a png
-                background_x = canvasWidth;
-            if(Math.abs(reef_x) >= (reef_width - canvasWidth) )  // i want my background to be double layered as a png
-                reef_spawn = canvasWidth;
+            if(Math.abs(background_x) >= (100 - canvasWidth) )  // i want my background to be double layered as a png
+                background_spawn = 0;
+            if(Math.abs(reef_x) >= (100 - canvasWidth) )  // i want my background to be double layered as a png
+                reef_spawn = 0;
 
             //worm logic
             if(collisionChecker(worm_x, worm_y)){
@@ -627,10 +627,15 @@ public class MainActivity extends AppCompatActivity {
 
                 //lets just try to get it the right size then we will move it
 
-                canvas.drawBitmap(bitmap_water, 0, minTurtleY, null);
+                //canvas.drawBitmap(bitmap_water, 0, minTurtleY, null);
+                canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
+                Log.e("background_x", background_x+"");
+
                 //canvas.drawBitmap(bitmap_water, background_x, minTurtleY, null);
 
-                canvas.drawBitmap(bitmap_reef, 0, maxTurtleY - padding_scale, null);
+                //canvas.drawBitmap(bitmap_reef, 0, maxTurtleY - padding_scale, null);
+                canvas.drawBitmap(bitmap_reef, reef_x, maxTurtleY - padding_scale, null);
+
                 //canvas.drawBitmap(bitmap_reef, reef_x, maxTurtleY, null);
                 //canvas.drawBitmap(bitmap_reef, reef_x, 0, null);
 
